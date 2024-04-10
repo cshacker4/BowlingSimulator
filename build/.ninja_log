@@ -1,12 +1,12 @@
 # ninja log v5
-36	591	7342442137514276	CMakeFiles/myProgram.dir/classes/vertex_attribute.cpp.obj	eb540242348b01c5
-92	2151	7342442153216634	CMakeFiles/myProgram.dir/support/glad.c.obj	4ba8423872685d8d
-14	2261	7342442154134141	CMakeFiles/myProgram.dir/classes/camera.cpp.obj	4d76b4892eab3d21
-4	2564	7342442157631723	CMakeFiles/myProgram.dir/classes/Shader.cpp.obj	258fc556673daad7
-9	2608	7342442158120203	CMakeFiles/myProgram.dir/classes/basic_shape.cpp.obj	8cc3cad590b9ac4c
-25	3006	7342442162104825	CMakeFiles/myProgram.dir/classes/ship.cpp.obj	5d171ac5d3962cdd
-49	3033	7342442162370552	CMakeFiles/myProgram.dir/fonts/Font.cpp.obj	c3499396e3cbc380
-19	3168	7342442163625273	CMakeFiles/myProgram.dir/classes/import_object.cpp.obj	21c38be607ad0ddf
-60	3363	7342442165615266	CMakeFiles/myProgram.dir/main.cpp.obj	604cd17a636557ca
-67	3813	7342442170127109	CMakeFiles/myProgram.dir/support/build_shapes.cpp.obj	14fe85e5b49c9533
-3814	4043	7342442172415340	myProgram.exe	d178614de5c2a91e
+56	753	7343979302042207	CMakeFiles/myProgram.dir/classes/vertex_attribute.cpp.obj	eb540242348b01c5
+125	4261	7343979336730553	CMakeFiles/myProgram.dir/support/glad.c.obj	4ba8423872685d8d
+36	4377	7343979338031205	CMakeFiles/myProgram.dir/classes/camera.cpp.obj	4d76b4892eab3d21
+30	4952	7343979343992219	CMakeFiles/myProgram.dir/classes/basic_shape.cpp.obj	8cc3cad590b9ac4c
+3	5029	7343979344784568	CMakeFiles/myProgram.dir/classes/Shader.cpp.obj	258fc556673daad7
+66	5063	7343979345140256	CMakeFiles/myProgram.dir/fonts/Font.cpp.obj	c3499396e3cbc380
+47	5139	7343979345896439	CMakeFiles/myProgram.dir/classes/ship.cpp.obj	5d171ac5d3962cdd
+89	5314	7343979347640403	CMakeFiles/myProgram.dir/main.cpp.obj	604cd17a636557ca
+41	5429	7343979348762491	CMakeFiles/myProgram.dir/classes/import_object.cpp.obj	21c38be607ad0ddf
+102	5920	7343979353665607	CMakeFiles/myProgram.dir/support/build_shapes.cpp.obj	14fe85e5b49c9533
+5921	6227	7343979356682177	myProgram.exe	d178614de5c2a91e

@@ -65,7 +65,7 @@ void ImportOBJ::readMTLFile(std::string fName) {
 
         //Texture
         else if (linePrefix == "map_Kd") {
-            this->texture = GetTexture(curLine.substr(7),true);
+            this->texture = GetTexture(curLine.substr(7), true);
         }
     }
 }

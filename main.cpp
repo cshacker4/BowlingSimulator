@@ -2,10 +2,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "support/environment_setup.hpp"
 #include "support/build_shapes.hpp"
-#include "classes/ship.hpp"
 #include "classes/camera.hpp"
 #include "fonts/Font.hpp"
 #include "classes/import_object.hpp"
+#include "classes/velocity_arrow.hpp"
 
 /*ProcessInput
  * Accepts a GLFWwindow pointer as input and processes 
@@ -13,16 +13,6 @@
  * Returns nothing.
  */
 void ProcessInput(GLFWwindow *window);
-
-/*DrawPyramid
- * Given a vector of BasicShape pointers, a vector of texture ids, a location
- * and a pointer to a shader object, draw the shapes using the given textures
- * and shader.  Assume the shader is already in use.
- */
-void DrawPyramid(std::vector<BasicShape*> shapes, 
-                std::vector<unsigned int> textures,
-                glm::vec3 location,
-                Shader *shader);
 
 /*mouse_callback
  *Accepts a GLFWwindow pointer, and a double for the xpos and the ypos.  
@@ -54,7 +44,7 @@ float last_x{0.0};
 float last_y{0.0};
 
 //Camera Object
-Camera camera(glm::vec3(0.0f,1.0f,25.0f),glm::vec3(0.0f,1.0f,0.0f),-90.0f,0.0f);
+Camera camera(glm::vec3(0.0f,1.0f,-3.0f),glm::vec3(0.0f,1.0f,0.0f),90.0f,0.0f);
 float delta_time{0.001};
 float last_frame{0.0};
 
@@ -117,9 +107,12 @@ int main()
     
     ImportOBJ importer;
 
-    //BasicShape die = importer.loadFiles("models/die",import_vao);
-    //int die_texture = importer.getTexture();
     BasicShape release_assembly_arm = importer.loadFiles("models/ReleaseAssemblyArm",import_vao);
+    BasicShape bowling_lane = importer.loadFiles("models/BowlingLane",import_vao);
+    int bowling_lane_texture = importer.getTexture();
+    BasicShape bowling_ball = importer.loadFiles("models/BowlingBall",import_vao);
+    BasicShape arrow = importer.loadFiles("models/VelocityArrow",import_vao);
+
     BasicShape light_cube = GetCube(vao, light_position, 1.0);
 
     arial_font.initialize(texture_vao);
@@ -130,15 +123,13 @@ int main()
     glm::mat4 model(1.0);
     glm::mat4 view(1.0);
     glm::mat4 projection(1.0);
+    glm::mat4 identity_matrix(1.0);
     
     shader_program.use();
 
-    glm::mat4 identity_matrix (1.0);
-    
-    model = glm::rotate(model,glm::radians(-90.0f),glm::vec3(1.0,0.0,0.0));
     shader_program.setMat4("model",model);
-    view = glm::translate(view,glm::vec3(0.0,10.0,0.0));
-    view = glm::rotate(view,glm::radians(-90.0f),glm::vec3(1.0,0.0,0.0));
+    //view = glm::translate(view,glm::vec3(0.0,10.0,0.0));
+    //view = glm::rotate(view,glm::radians(-90.0f),glm::vec3(1.0,0.0,0.0));
     shader_program.setMat4("view",view);
     projection = glm::perspective(glm::radians(45.0f),(1.0f*SCR_WIDTH)/(1.0f*SCR_HEIGHT),0.1f,100.0f);
     shader_program.setMat4("projection",projection);
@@ -150,7 +141,7 @@ int main()
     glm::vec3 light_color (1.0);
     glm::vec3 ambient_color = 0.1f*light_color;
     
-    shader_program.setVec4("point_light.ambient",glm::vec4(0.1f*light_color,1.0));
+    shader_program.setVec4("point_light.ambient",glm::vec4(0.3f*light_color,1.0));
     shader_program.setVec4("point_light.diffuse",glm::vec4(light_color,1.0f));
     shader_program.setVec4("point_light.specular",glm::vec4(0.5f*light_color,1.0f));
     shader_program.setVec4("point_light.position",light_position);
@@ -209,26 +200,55 @@ int main()
 	light_cube.Draw();
 	shader_program.setInt("light_cube",false);
 
+	//Draw the bowling lane
+	//---------------------
+	shader_program.setBool("is_textured",true);
+	shader_program.setBool("imported_material",false);
+	glm::mat4 lane_transform(1.0);
+	glm::mat4 lane_model(1.0);
+	shader_program.setMat4("model",lane_model);
+	shader_program.setMat4("transform",lane_transform);
+	glBindTexture(GL_TEXTURE_2D,bowling_lane_texture);
+	bowling_lane.Draw();
+	glBindTexture(GL_TEXTURE_2D,0);
+
         //Draw the realease assembly arm
         shader_program.setBool("is_textured",false);
         shader_program.setBool("imported_material",true);
         glm::mat4 avatar_transform(1.0);
         glm::mat4 avatar_model(1.0);
-        avatar_transform = glm::translate(avatar_transform,glm::vec3(0.0,1.0,0.0));
-        avatar_transform = glm::rotate(avatar_transform,glm::radians(180.0f),glm::vec3(0.0,1.0,0.0));
         shader_program.setMat4("model",avatar_model);
         shader_program.setMat4("transform",avatar_transform);
 	release_assembly_arm.Draw();
         shader_program.setBool("imported_material",false);
 
+	//Draw the arrow
+	//----------------------
+	shader_program.setBool("is_textured",false);
+	shader_program.setBool("imported_material",true);
+	glm::mat4 arrow_transform(1.0);
+	glm::mat4 arrow_model(1.0);
+	shader_program.setMat4("model",arrow_model);
+	shader_program.setMat4("transform",arrow_transform);
+	arrow.Draw();
+	shader_program.setBool("imported_material",false);
+
+	//Draw the bowling ball
+	//----------------------
+	shader_program.setBool("is_textured",false);
+	shader_program.setBool("imported_material",true);
+	glm::mat4 ball_transform(1.0);
+	glm::mat4 ball_model(1.0);
+	shader_program.setMat4("model",ball_model);
+	shader_program.setMat4("transform",ball_transform);
+	bowling_ball.Draw();
+	shader_program.setBool("imported_material",false);
+
+	//Draw the text
         shader_program.setBool("is_textured",true);
         shader_program.setMat4("model",model);
         shader_program.setMat4("transform",identity_matrix);
         
-        if (camera.Position.y < 0.5) {
-            camera.Position.y = 0.5;
-        }
-
         //Draw the text so that it stays with the camera
         font_program.use();
         //arial_font.DrawCharacter('*',glm::vec2(-0.05,0.0),font_program);
@@ -303,33 +323,6 @@ void ProcessInput(GLFWwindow *window)
         camera.ProcessKeyboard(RIGHT,delta_time);
     }
 
-
-}
-
-void DrawPyramid(std::vector<BasicShape*> shapes, 
-                std::vector<unsigned int> textures,
-                glm::vec3 location,
-                Shader *shader)
-{
-    if (shapes.size() != textures.size()) {
-        std::cout<<"DrawPyramid: Number shapes does not match number of textures."<<std::endl;
-        return;
-    }
-    shader->setBool("is_textured",true);
-
-    //shader_program.setMat4("transform",identity_matrix);
-    glm::mat4 pyramid_transform(1.0);
-    pyramid_transform = glm::translate(pyramid_transform,location);
-    pyramid_transform = glm::rotate(pyramid_transform,glm::radians(angle_x),
-                                    glm::vec3(1.0,0.0,0.0));
-    pyramid_transform = glm::rotate(pyramid_transform,glm::radians(angle_z),
-                                    glm::vec3(0.0,0.0,1.0));
-    shader->setMat4("transform",pyramid_transform);
-
-    for (int i = 0; i < shapes.size(); i++){
-        glBindTexture(GL_TEXTURE_2D,textures[i]);
-        shapes[i]->Draw();
-    }
 
 }
 
