@@ -111,8 +111,7 @@ int main()
     BasicShape bowling_lane = importer.loadFiles("models/BowlingLane",import_vao);
     int bowling_lane_texture = importer.getTexture();
     BasicShape bowling_ball = importer.loadFiles("models/BowlingBall",import_vao);
-    BasicShape arrow = importer.loadFiles("models/VelocityArrow",import_vao);
-
+    VelocityArrow velocity_arrow(&import_vao, &shader_program);
     BasicShape light_cube = GetCube(vao, light_position, 1.0);
 
     arial_font.initialize(texture_vao);
@@ -230,7 +229,7 @@ int main()
 	glm::mat4 arrow_model(1.0);
 	shader_program.setMat4("model",arrow_model);
 	shader_program.setMat4("transform",arrow_transform);
-	arrow.Draw();
+	velocity_arrow.Draw();
 	shader_program.setBool("imported_material",false);
 
 	//Draw the bowling ball
