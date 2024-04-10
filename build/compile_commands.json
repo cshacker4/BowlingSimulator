@@ -25,6 +25,12 @@
 },
 {
   "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/ICE/ICE_19_1/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\release_assembly_arm.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\ICE\\ICE_19_1\\classes\\release_assembly_arm.cpp\"",
+  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\ICE\\ICE_19_1\\classes\\release_assembly_arm.cpp",
+  "output": "CMakeFiles\\myProgram.dir\\classes\\release_assembly_arm.cpp.obj"
+},
+{
+  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/ICE/ICE_19_1/build",
   "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\ship.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\ICE\\ICE_19_1\\classes\\ship.cpp\"",
   "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\ICE\\ICE_19_1\\classes\\ship.cpp",
   "output": "CMakeFiles\\myProgram.dir\\classes\\ship.cpp.obj"

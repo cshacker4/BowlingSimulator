@@ -1,13 +1,14 @@
 # ninja log v5
-60	535	7344214042316455	CMakeFiles/myProgram.dir/classes/vertex_attribute.cpp.obj	eb540242348b01c5
-539	2801	7344214063501098	CMakeFiles/myProgram.dir/support/glad.c.obj	4ba8423872685d8d
-4	2806	7344214064734093	CMakeFiles/myProgram.dir/classes/Shader.cpp.obj	258fc556673daad7
-15	2809	7344214064933620	CMakeFiles/myProgram.dir/classes/camera.cpp.obj	4d76b4892eab3d21
-10	2915	7344214065935089	CMakeFiles/myProgram.dir/classes/basic_shape.cpp.obj	8cc3cad590b9ac4c
-20	3352	7344214070514586	CMakeFiles/myProgram.dir/classes/import_object.cpp.obj	21c38be607ad0ddf
-73	3456	7344214071645909	CMakeFiles/myProgram.dir/fonts/Font.cpp.obj	c3499396e3cbc380
-29	3482	7344214071883769	CMakeFiles/myProgram.dir/classes/ship.cpp.obj	5d171ac5d3962cdd
-35	3521	7344214072285467	CMakeFiles/myProgram.dir/classes/velocity_arrow.cpp.obj	f9d80bdb0f1b7a6f
-85	3703	7344214074087061	CMakeFiles/myProgram.dir/main.cpp.obj	604cd17a636557ca
-100	4238	7344214079428323	CMakeFiles/myProgram.dir/support/build_shapes.cpp.obj	14fe85e5b49c9533
-4238	4474	7344214081683207	myProgram.exe	9b8dd5844f69db74
+80	734	7344901009755042	CMakeFiles/myProgram.dir/classes/vertex_attribute.cpp.obj	eb540242348b01c5
+112	4610	7344901048204145	CMakeFiles/myProgram.dir/fonts/Font.cpp.obj	c3499396e3cbc380
+70	4729	7344901049460262	CMakeFiles/myProgram.dir/classes/velocity_arrow.cpp.obj	f9d80bdb0f1b7a6f
+45	4838	7344901050403381	CMakeFiles/myProgram.dir/classes/camera.cpp.obj	4d76b4892eab3d21
+39	4871	7344901050744398	CMakeFiles/myProgram.dir/classes/basic_shape.cpp.obj	8cc3cad590b9ac4c
+4	5047	7344901052696806	CMakeFiles/myProgram.dir/classes/Shader.cpp.obj	258fc556673daad7
+63	5106	7344901053396149	CMakeFiles/myProgram.dir/classes/ship.cpp.obj	5d171ac5d3962cdd
+55	5200	7344901054278772	CMakeFiles/myProgram.dir/classes/release_assembly_arm.cpp.obj	c416d90778d9f735
+121	5282	7344901055073828	CMakeFiles/myProgram.dir/main.cpp.obj	604cd17a636557ca
+50	5440	7344901056657339	CMakeFiles/myProgram.dir/classes/import_object.cpp.obj	21c38be607ad0ddf
+736	5858	7344901060928196	CMakeFiles/myProgram.dir/support/build_shapes.cpp.obj	14fe85e5b49c9533
+4653	7055	7344901072790955	CMakeFiles/myProgram.dir/support/glad.c.obj	4ba8423872685d8d
+7056	7421	7344901076419571	myProgram.exe	6fdeeca3b8d18145

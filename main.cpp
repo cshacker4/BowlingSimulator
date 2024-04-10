@@ -6,6 +6,7 @@
 #include "fonts/Font.hpp"
 #include "classes/import_object.hpp"
 #include "classes/velocity_arrow.hpp"
+#include "classes/release_assembly_arm.hpp"
 
 /*ProcessInput
  * Accepts a GLFWwindow pointer as input and processes 
@@ -107,11 +108,12 @@ int main()
     
     ImportOBJ importer;
 
-    BasicShape release_assembly_arm = importer.loadFiles("models/ReleaseAssemblyArm",import_vao);
     BasicShape bowling_lane = importer.loadFiles("models/BowlingLane",import_vao);
     int bowling_lane_texture = importer.getTexture();
     BasicShape bowling_ball = importer.loadFiles("models/BowlingBall",import_vao);
     VelocityArrow velocity_arrow(&import_vao, &shader_program);
+    ReleaseAssemblyArm release_assembly_arm(&import_vao, &shader_program);
+
     BasicShape light_cube = GetCube(vao, light_position, 1.0);
 
     arial_font.initialize(texture_vao);
@@ -212,25 +214,14 @@ int main()
 	glBindTexture(GL_TEXTURE_2D,0);
 
         //Draw the realease assembly arm
-        shader_program.setBool("is_textured",false);
-        shader_program.setBool("imported_material",true);
-        glm::mat4 avatar_transform(1.0);
-        glm::mat4 avatar_model(1.0);
-        shader_program.setMat4("model",avatar_model);
-        shader_program.setMat4("transform",avatar_transform);
-	release_assembly_arm.Draw();
-        shader_program.setBool("imported_material",false);
+	//---------------------
+	release_assembly_arm.ProcessInput(window, delta_time);
+       	release_assembly_arm.Draw();
 
 	//Draw the arrow
 	//----------------------
-	shader_program.setBool("is_textured",false);
-	shader_program.setBool("imported_material",true);
-	glm::mat4 arrow_transform(1.0);
-	glm::mat4 arrow_model(1.0);
-	shader_program.setMat4("model",arrow_model);
-	shader_program.setMat4("transform",arrow_transform);
+	velocity_arrow.ProcessInput(window, delta_time);
 	velocity_arrow.Draw();
-	shader_program.setBool("imported_material",false);
 
 	//Draw the bowling ball
 	//----------------------
