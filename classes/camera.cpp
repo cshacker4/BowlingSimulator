@@ -11,6 +11,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 up,float yaw, float pitch):
         Yaw = yaw;
         Pitch = pitch;
         updateCameraVectors();
+	fixedViewMatrix = glm::lookAt(glm::vec3(0.0f, 1.0f, -3.0f), glm::vec3(0.0f, 1.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
     // Constructor with scalar values
 Camera::Camera(float posX, float posY, float posZ, float upX, float upY,
@@ -25,11 +26,19 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY,
         updateCameraVectors();
     }
 
-    // Returns the view matrix calculated using Euler Angles and the LookAt Matrix
+// Returns the view matrix calculated using Euler Angles and the LookAt Matrix
 glm::mat4 Camera::GetViewMatrix()
-    {
-        return glm::lookAt(Position, Position + Front, Up);
-    }
+{
+	if (fixedCamera){
+		std::cout << "Camera position: " << Position.x << " " << Position.y << " " << Position.z << std::endl;
+		return fixedViewMatrix;
+	}
+
+	else{
+		std::cout << "Camera position: " << Position.x << " " << Position.y << " " << Position.z << std::endl;
+		return glm::lookAt(Position, Position + Front, Up);
+	}
+}
 
     // Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
 void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
@@ -100,5 +109,6 @@ void Camera::updateCameraVectors()
 void Camera::ChangeCamera()
 {
 	fixedCamera = !fixedCamera;
+
 }
 

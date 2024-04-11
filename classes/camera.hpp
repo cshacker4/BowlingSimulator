@@ -2,6 +2,7 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
+#include <iostream>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -40,6 +41,7 @@ public:
     glm::vec3 Up;
     glm::vec3 Right;
     glm::vec3 WorldUp;
+    glm::mat4 fixedViewMatrix;
     // Fixed Camera Positions
     bool fixedCamera = false;
     // Euler Angles

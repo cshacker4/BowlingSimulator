@@ -320,23 +320,24 @@ void ProcessInput(GLFWwindow *window)
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-    if (first_mouse)
-    {
-        last_x = xpos;
-        last_y = ypos;
-        first_mouse = false;
-    }
-  
-    float xoffset = xpos - last_x;
-    float yoffset = last_y - ypos; 
-    last_x = xpos;
-    last_y = ypos;
 
-    float sensitivity = 0.7f;
-    xoffset *= sensitivity;
-    yoffset *= sensitivity;
+	if (first_mouse)
+	{
+		last_x = xpos;
+		last_y = ypos;
+		first_mouse = false;
+	}
 
-    camera.ProcessMouseMovement(xoffset,yoffset);
+	float xoffset = xpos - last_x;
+	float yoffset = last_y - ypos; 
+	last_x = xpos;
+	last_y = ypos;
 
-    
+	float sensitivity = 0.7f;
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
+
+	camera.ProcessMouseMovement(xoffset,yoffset);
+
+
 }  
