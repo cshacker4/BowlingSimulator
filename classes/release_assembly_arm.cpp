@@ -2,10 +2,10 @@
 
 ReleaseAssemblyArm::ReleaseAssemblyArm(VAOStruct* vao, Shader* shader){
 	angle_x = 0.0f;
-	angular_velocity = 10.0f;
+	angular_velocity = 2.0f;
 	arm_shader = shader;
 	arm_vao = vao;
-	position = glm::vec3(0.4910, -18.5099, 0.5532);
+	//Convert form Blender to OpenGL
 	ImportOBJ importer;
 	arm_shape = importer.loadFiles("models/ReleaseAssemblyArm", *arm_vao);
 }
@@ -30,7 +30,7 @@ glm::mat4 ReleaseAssemblyArm::get_model_matrix(){
 	glm::mat4 model(1.0);
 	glm::vec3 translate_to_origin = -1.0f * position;
 	model = glm::translate(model, translate_to_origin);
-	//model = glm::rotate(model, glm::radians(angle_x), glm::vec3(1.0f, 0.0f, 0.0f));
-	//model = glm::translate(model, position);
+	model = glm::rotate(model, glm::radians(angle_x), glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::translate(model, position);
 	return model;
 }

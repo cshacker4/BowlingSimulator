@@ -34,8 +34,6 @@ glm::vec4 clear_color (0.0,0.0,0.0,1.0);
 glm::vec2 world_min (-1.0,-1.0);
 glm::vec2 world_max (1.0,1.0);
 
-float angle_z = 0.0;
-float angle_x = 0.0;
 float rotate_speed = 90.0;
 
 //Global Variables
@@ -43,6 +41,8 @@ float rotate_speed = 90.0;
 bool first_mouse{true};
 float last_x{0.0};
 float last_y{0.0};
+bool cKeyPressed = false;
+bool cameraToggle = false;
 
 //Camera Object
 Camera camera(glm::vec3(0.0f,1.0f,-3.0f),glm::vec3(0.0f,1.0f,0.0f),90.0f,0.0f);
@@ -115,6 +115,7 @@ int main()
     ReleaseAssemblyArm release_assembly_arm(&import_vao, &shader_program);
 
     BasicShape light_cube = GetCube(vao, light_position, 1.0);
+    BasicShape origin_cube = GetCube(vao, glm::vec4(0.0,0.0,0.0,1.0), 0.1);
 
     arial_font.initialize(texture_vao);
 
@@ -129,8 +130,6 @@ int main()
     shader_program.use();
 
     shader_program.setMat4("model",model);
-    //view = glm::translate(view,glm::vec3(0.0,10.0,0.0));
-    //view = glm::rotate(view,glm::radians(-90.0f),glm::vec3(1.0,0.0,0.0));
     shader_program.setMat4("view",view);
     projection = glm::perspective(glm::radians(45.0f),(1.0f*SCR_WIDTH)/(1.0f*SCR_HEIGHT),0.1f,100.0f);
     shader_program.setMat4("projection",projection);
@@ -199,6 +198,7 @@ int main()
 	shader_program.setMat4("model",model);
 	shader_program.setVec4("set_color",glm::vec4(1.0,1.0,1.0,1.0));
 	light_cube.Draw();
+	origin_cube.Draw();
 	shader_program.setInt("light_cube",false);
 
 	//Draw the bowling lane
@@ -287,33 +287,35 @@ void ProcessInput(GLFWwindow *window)
     
     if (glfwGetKey(window,GLFW_KEY_SPACE)==GLFW_RELEASE)
         glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-    
 
-    if (glfwGetKey(window,GLFW_KEY_RIGHT)==GLFW_PRESS) {
-        angle_z -= rotate_speed * delta_time;
+
+    // Inside your main loop
+    if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && !cKeyPressed) {
+	    cKeyPressed = true;
+	    if (!cameraToggle){
+		    cameraToggle = true;
+		    camera.ChangeCamera();
+	    }
+    }
+    else if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE && cKeyPressed) {
+	    cKeyPressed = false;
+	    cameraToggle = false;
+    } 
+    if (glfwGetKey(window,GLFW_KEY_W)==GLFW_PRESS && !camera.fixedCamera) {
+	    camera.ProcessKeyboard(FORWARD,delta_time);
     }
 
-    if (glfwGetKey(window,GLFW_KEY_LEFT)==GLFW_PRESS) {
-        angle_z += rotate_speed * delta_time;
+    if (glfwGetKey(window,GLFW_KEY_S)==GLFW_PRESS && !camera.fixedCamera) {
+	    camera.ProcessKeyboard(BACKWARD,delta_time);
     }
 
-    if (glfwGetKey(window,GLFW_KEY_W)==GLFW_PRESS) {
-        camera.ProcessKeyboard(FORWARD,delta_time);
+    if (glfwGetKey(window,GLFW_KEY_A)==GLFW_PRESS && !camera.fixedCamera) {
+	    camera.ProcessKeyboard(LEFT,delta_time);
     }
 
-    if (glfwGetKey(window,GLFW_KEY_S)==GLFW_PRESS) {
-        camera.ProcessKeyboard(BACKWARD,delta_time);
+    if (glfwGetKey(window,GLFW_KEY_D)==GLFW_PRESS && !camera.fixedCamera) {
+	    camera.ProcessKeyboard(RIGHT,delta_time);
     }
-
-    if (glfwGetKey(window,GLFW_KEY_A)==GLFW_PRESS) {
-        camera.ProcessKeyboard(LEFT,delta_time);
-    }
-
-    if (glfwGetKey(window,GLFW_KEY_D)==GLFW_PRESS) {
-        camera.ProcessKeyboard(RIGHT,delta_time);
-    }
-
-
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)

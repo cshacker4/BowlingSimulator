@@ -14,7 +14,7 @@ class ReleaseAssemblyArm{
 	private:
 		float angle_x;
 		float angular_velocity;
-		glm::vec3 position;
+		glm::vec3 position = glm::vec3(0.4910, 0.5532, 18.5099);
 		Shader* arm_shader;
 		VAOStruct* arm_vao;
 		BasicShape arm_shape;

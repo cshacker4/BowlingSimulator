@@ -71,27 +71,34 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constr
         updateCameraVectors();
     }
 
-    // Processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
-    void Camera::ProcessMouseScroll(float yoffset)
-    {
-        if (Zoom >= 1.0f && Zoom <= 45.0f)
-            Zoom -= yoffset;
-        if (Zoom <= 1.0f)
-            Zoom = 1.0f;
-        if (Zoom >= 45.0f)
-            Zoom = 45.0f;
-    }
+// Processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
+void Camera::ProcessMouseScroll(float yoffset)
+{
+	if (Zoom >= 1.0f && Zoom <= 45.0f)
+		Zoom -= yoffset;
+	if (Zoom <= 1.0f)
+		Zoom = 1.0f;
+	if (Zoom >= 45.0f)
+		Zoom = 45.0f;
+}
 
-    // Calculates the front vector from the Camera's (updated) Euler Angles
-    void Camera::updateCameraVectors()
-    {
-        // Calculate the new Front vector
-        glm::vec3 front;
-        front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-        front.y = sin(glm::radians(Pitch));
-        front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-        Front = glm::normalize(front);
-        // Also re-calculate the Right and Up vector
-        Right = glm::normalize(glm::cross(Front, WorldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-        Up    = glm::normalize(glm::cross(Right, Front));
-    }
+// Calculates the front vector from the Camera's (updated) Euler Angles
+void Camera::updateCameraVectors()
+{
+	// Calculate the new Front vector
+	glm::vec3 front;
+	front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+	front.y = sin(glm::radians(Pitch));
+	front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+	Front = glm::normalize(front);
+	// Also re-calculate the Right and Up vector
+	Right = glm::normalize(glm::cross(Front, WorldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+	Up    = glm::normalize(glm::cross(Right, Front));
+}
+
+// Change to fixed camera position
+void Camera::ChangeCamera()
+{
+	fixedCamera = !fixedCamera;
+}
+
