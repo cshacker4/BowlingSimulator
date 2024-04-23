@@ -36,47 +36,65 @@ struct PointLight {
     vec4 ambient;
     vec4 diffuse;
     vec4 specular;
-
-    //add coefficients for attenuation here
     bool on;
 };
 
-uniform PointLight point_light;
+struct Spotlight {
+	vec4 position;
+	vec4 direction;
+	vec4 color;
+	float cut_off;
+};
+
+uniform PointLight blue_light;
+uniform PointLight white_light;
+uniform Spotlight spotlight;
 
 vec4 CalcPointLight (PointLight light,vec3 norm,vec3 frag,vec3 eye);
 
 
 void main()
 {
-	vec4 point_light_color = CalcPointLight(point_light,norm,
+	vec4 blue_light_color = CalcPointLight(blue_light,norm,
 			fragment_position,view_position.xyz);
-	//handle spotlight cube
+	vec4 white_light_color = CalcPointLight(white_light,norm,
+			fragment_position,view_position.xyz);
+
+	float white_light_distance = length(white_light.position.xyz - fragment_position);
+	float white_light_attenuation = 1.0 / (1.0 + 0.045 * white_light_distance + 0.0075 * white_light_distance * white_light_distance);
+
+	vec3 direction_to_spotlight = normalize(vec3(spotlight.position) - fragment_position);
+    	float theta = dot(spotlight.direction.xyz, normalize(-direction_to_spotlight));
+
+	//handle light cube
 	if (light_cube == 1) {
-		FragColor = vec4(1.0,1.0,1.0,1.0);
-		return;
-	}
-	if (vertex_material != 0) {
-		//if we use an imported object defined by materials, this is covered
-		FragColor = point_light_color;
+		FragColor = set_color;
 		return;
 	}
 
 	//if it isn't textured, set the output color to the color we set.
 	if (textured == 0) {
 		FragColor = set_color;
-	} else {
+	}
+	else {
 		//if it -is- textured set the color to the appropriate color in the texture
 		//  according to the texture_coordinates.
 		FragColor = texture(ourTexture,texture_coordinates);
 	}
 
-	FragColor = (point_light_color) * FragColor;
+	FragColor = (blue_light_color + white_light_attenuation * white_light_color) * FragColor;
+
+	if (theta > cos(radians(spotlight.cut_off))) {
+		float intensity = 1.0 / (1.0 + 0.045 * white_light_distance+ 0.0075 * white_light_distance * white_light_distance);
+		FragColor = intensity * spotlight.color + FragColor;
+	}
+
 
 };
 
 vec4 CalcPointLight (PointLight light,vec3 norm,vec3 frag,vec3 eye) {
 
-    if (!light.on) {
+    if (false == light.on) {
         return vec4(0.0,0.0,0.0,1.0);
     }
     vec3 light_direction = light.position.xyz - frag.xyz;

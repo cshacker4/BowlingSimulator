@@ -7,6 +7,8 @@
 #include "classes/import_object.hpp"
 #include "classes/velocity_arrow.hpp"
 #include "classes/release_assembly_arm.hpp"
+#include "classes/bowling_ball.hpp"
+#include "classes/bowling_pin.hpp"
 
 /*ProcessInput
  * Accepts a GLFWwindow pointer as input and processes 
@@ -41,8 +43,9 @@ float rotate_speed = 90.0;
 bool first_mouse{true};
 float last_x{0.0};
 float last_y{0.0};
-bool cKeyPressed = false;
 bool cameraToggle = false;
+bool lKeyPressed = false;
+bool lightToggle = false;
 
 //Camera Object
 Camera camera(glm::vec3(0.0f,1.0f,-3.0f),glm::vec3(0.0f,1.0f,0.0f),90.0f,0.0f);
@@ -50,9 +53,64 @@ float delta_time{0.001};
 float last_frame{0.0};
 
 //light switches
-glm::vec4 light_position (0.0,20.0,20.0,1.0);
+glm::vec4 blue_light_position (0.0,5.0,10.0,1.0);
+glm::vec4 white_light_position (0.0,5.0,-3.0,1.0);
+
 
 Font arial_font ("fonts/ArialBlackLarge.bmp","fonts/ArialBlack.csv",0.1,0.15);
+
+//Point light structure
+struct PointLight {
+	glm::vec4 position;
+	glm::vec4 ambient;
+	glm::vec4 diffuse;
+	glm::vec4 specular;
+
+    //add coefficients for attenuation here
+    bool on;
+};
+struct Spotlight {
+	glm::vec4 position;
+	glm::vec4 direction;
+	glm::vec4 color;
+	float cut_off;
+};
+
+//Handle Collision
+//----------------
+//Created with the assistance of ChatGPT: https://chat.openai.com/share/1f6799d8-e332-458d-a9f5-bd91ba19cb59
+void calculate_velocity_after_collision(BowlingBall* ball, BowlingPin* pin) {
+	// Calculate new velocities using conservation of momentum and kinetic energy
+	float pin_weight = pin->get_weight();
+	float ball_weight = ball->get_weight();
+
+	// Relative velocity of the ball with respect to the pin
+	glm::vec3 relative_velocity = pin->get_velocity() - ball->get_velocity();
+
+	// Calculate final velocities using conservation of momentum
+	glm::vec3 ball_velocity = ((2.0f * pin_weight * pin->get_velocity()) + (ball_weight - pin_weight) * ball->get_velocity()) / (ball_weight + pin_weight);
+	glm::vec3 pin_velocity = pin->get_velocity() + relative_velocity - ((ball_weight / pin_weight) * glm::dot(relative_velocity, (ball->get_velocity() - pin->get_velocity()))) * (ball->get_velocity() - pin->get_velocity());
+
+	// Update velocities of both objects
+	ball->set_velocity(ball_velocity);
+	pin->set_velocity(pin_velocity);
+}
+
+void handle_ball_pin_collision(BowlingBall* ball, BowlingPin* pin) {
+	glm::vec3 ball_position = ball->get_position();
+	glm::vec3 pin_position = pin->get_position();
+	float ball_radius = ball->get_radius();
+	float pin_radius = pin->get_radius();
+	float distance = glm::distance(ball_position, pin_position);
+
+	if (distance < ball_radius + pin_radius) {
+		//if (!pin->get_is_hit()) {
+			pin->set_is_hit(true);
+			calculate_velocity_after_collision(ball, pin);
+			std::cout<<"Collision detected"<<std::endl;
+		//}
+	}
+}
 
 int main()
 {
@@ -110,11 +168,31 @@ int main()
 
     BasicShape bowling_lane = importer.loadFiles("models/BowlingLane",import_vao);
     int bowling_lane_texture = importer.getTexture();
-    BasicShape bowling_ball = importer.loadFiles("models/BowlingBall",import_vao);
-    VelocityArrow velocity_arrow(&import_vao, &shader_program);
+    BowlingBall bowling_ball(&import_vao, &shader_program);
+    std::cout<<bowling_ball.get_position().x<<std::endl;
+    VelocityArrow velocity_arrow(&import_vao, &shader_program, bowling_ball.get_position());
     ReleaseAssemblyArm release_assembly_arm(&import_vao, &shader_program);
 
-    BasicShape light_cube = GetCube(vao, light_position, 1.0);
+    //Create bowling pins
+    //-------------------------
+    float bowling_pins_length = 0.16;
+    glm::vec3 bowling_pins_position = glm::vec3(0.0, 0.0, 1.0);
+    BowlingPin bowling_pins[10]{
+	    BowlingPin(&import_vao, &shader_program, bowling_pins_position),
+	    BowlingPin(&import_vao, &shader_program, bowling_pins_position + glm::vec3(bowling_pins_length, 0.0, bowling_pins_length)),
+	    BowlingPin(&import_vao, &shader_program, bowling_pins_position + glm::vec3(-bowling_pins_length, 0.0, bowling_pins_length)),
+	    BowlingPin(&import_vao, &shader_program, bowling_pins_position + glm::vec3(2*bowling_pins_length, 0.0, 2* bowling_pins_length)),
+	    BowlingPin(&import_vao, &shader_program, bowling_pins_position + glm::vec3(0.0, 0.0, 2*bowling_pins_length)),
+	    BowlingPin(&import_vao, &shader_program, bowling_pins_position + glm::vec3(-2*bowling_pins_length, 0.0, 2*bowling_pins_length)),
+	    BowlingPin(&import_vao, &shader_program, bowling_pins_position + glm::vec3(3*bowling_pins_length, 0.0, 3*bowling_pins_length)),
+	    BowlingPin(&import_vao, &shader_program, bowling_pins_position + glm::vec3(bowling_pins_length, 0.0, 3*bowling_pins_length)),
+	    BowlingPin(&import_vao, &shader_program, bowling_pins_position + glm::vec3(-bowling_pins_length, 0.0, 3*bowling_pins_length)),
+	    BowlingPin(&import_vao, &shader_program, bowling_pins_position + glm::vec3(-3*bowling_pins_length, 0.0, 3*bowling_pins_length))
+    };
+
+
+    BasicShape blue_light_cube = GetCube(vao, blue_light_position, 0.1);
+    BasicShape white_light_cube = GetCube(vao, white_light_position, 0.1);
     BasicShape origin_cube = GetCube(vao, glm::vec4(0.0,0.0,0.0,1.0), 0.1);
 
     arial_font.initialize(texture_vao);
@@ -138,14 +216,42 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     //lighting 
-    glm::vec3 light_color (1.0);
-    glm::vec3 ambient_color = 0.1f*light_color;
-    
-    shader_program.setVec4("point_light.ambient",glm::vec4(0.3f*light_color,1.0));
-    shader_program.setVec4("point_light.diffuse",glm::vec4(light_color,1.0f));
-    shader_program.setVec4("point_light.specular",glm::vec4(0.5f*light_color,1.0f));
-    shader_program.setVec4("point_light.position",light_position);
-    shader_program.setBool("point_light.on",true);
+    PointLight blue_light{
+	    blue_light_position,
+		    glm::vec4(0.0f, 0.0f, 0.1f, 1.0f), 
+		    glm::vec4(0.2f, 0.2f, 1.0f, 1.0f),
+		    glm::vec4(0.0f, 0.0f, 1.0f,1.0f),
+		    true
+    };
+    PointLight white_light{
+	    white_light_position,
+		    glm::vec4(0.0f, 0.0f, 0.1f, 1.0f), 
+		    glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
+		    glm::vec4(1.0f, 1.0f, 1.0f,1.0f),
+		    true
+    };
+    Spotlight spotlight = {glm::vec4(0.0,3.0,19.0, 1.0),
+	    glm::vec4(0.0,-1.0, 0.0, 1.0),
+	    glm::vec4(1.0,1.0,1.0,1.0),
+	    12.5};
+
+
+    shader_program.setVec4("blue_light.ambient",blue_light.ambient);
+    shader_program.setVec4("blue_light.diffuse",blue_light.diffuse);
+    shader_program.setVec4("blue_light.specular",blue_light.specular);
+    shader_program.setVec4("blue_light.position",blue_light.position);
+    shader_program.setBool("blue_light.on", blue_light.on);
+
+    shader_program.setVec4("white_light.ambient", white_light.ambient);
+    shader_program.setVec4("white_light.diffuse", white_light.diffuse);
+    shader_program.setVec4("white_light.specular", white_light.specular);
+    shader_program.setVec4("white_light.position", white_light.position);
+    shader_program.setBool("white_light.on", white_light.on);
+
+    shader_program.setVec4("spotlight.position", spotlight.position);
+    shader_program.setVec4("spotlight.direction", spotlight.direction);
+    shader_program.setVec4("spotlight.color", spotlight.color);
+    shader_program.setFloat("spotlight.cut_off", spotlight.cut_off);
 
     shader_program.setVec4("view_position",glm::vec4(camera.Position,1.0));
 
@@ -175,17 +281,37 @@ int main()
         // -----
         ProcessInput(window);
 
+	//Handle light toggle
+	//-------------------
+	
+
         // render
         // ------
         glClearColor(clear_color.r,clear_color.g,clear_color.b,clear_color.a);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        shader_program.use();
+	shader_program.use();
 
-        view = camera.GetViewMatrix();
-        shader_program.setMat4("view",view);
-        shader_program.setVec4("view_position",glm::vec4(camera.Position,1.0));
-        
+	//Take care of the light toggle
+	if (glfwGetKey(window, GLFW_KEY_L)) {
+		lKeyPressed = true;
+		if (!lightToggle){
+			std::cout<<"Light switch"<<std::endl;
+			blue_light.on = !blue_light.on;
+			std::cout<<"Blue light on: "<<blue_light.on<<std::endl;
+			shader_program.setBool("blue_light.on",blue_light.on);
+			lightToggle = true;
+		}
+	}
+	else if (glfwGetKey(window, GLFW_KEY_L) == GLFW_RELEASE && lKeyPressed) {
+		lKeyPressed = false;
+		lightToggle = false;
+	}
+
+	view = camera.GetViewMatrix();
+	shader_program.setMat4("view",view);
+	shader_program.setVec4("view_position",glm::vec4(camera.Position,1.0));
+
 
 	//Draw the light cube
 	//-------------------
@@ -196,9 +322,11 @@ int main()
 	glm::mat4 model(1.0);
 	shader_program.setMat4("transform",transform);
 	shader_program.setMat4("model",model);
+	shader_program.setVec4("set_color",glm::vec4(0.0,0.0,1.0,1.0));
+	//blue_light_cube.Draw();
 	shader_program.setVec4("set_color",glm::vec4(1.0,1.0,1.0,1.0));
-	light_cube.Draw();
-	origin_cube.Draw();
+	//origin_cube.Draw();
+	white_light_cube.Draw();
 	shader_program.setInt("light_cube",false);
 
 	//Draw the bowling lane
@@ -225,14 +353,17 @@ int main()
 
 	//Draw the bowling ball
 	//----------------------
-	shader_program.setBool("is_textured",false);
-	shader_program.setBool("imported_material",true);
-	glm::mat4 ball_transform(1.0);
-	glm::mat4 ball_model(1.0);
-	shader_program.setMat4("model",ball_model);
-	shader_program.setMat4("transform",ball_transform);
+	float velocity_arrow_angle = velocity_arrow.get_angle_y();
+	bowling_ball.ProcessInput(window, delta_time, velocity_arrow_angle);
 	bowling_ball.Draw();
-	shader_program.setBool("imported_material",false);
+
+	//Draw the bowling pin
+	//----------------------
+	for (int i = 0; i < 10; i++) {
+		handle_ball_pin_collision(&bowling_ball, &bowling_pins[i]);
+		bowling_pins[i].ProcessInput(window, delta_time);
+		bowling_pins[i].Draw();
+	}
 
 	//Draw the text
         shader_program.setBool("is_textured",true);
@@ -289,18 +420,16 @@ void ProcessInput(GLFWwindow *window)
         glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
 
-    // Inside your main loop
-    if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && !cKeyPressed) {
-	    cKeyPressed = true;
-	    if (!cameraToggle){
-		    cameraToggle = true;
-		    camera.ChangeCamera();
-	    }
+    // Upon C key press, the camera will change
+    if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && camera.firstPress) {
+	    camera.fixedCamera = !camera.fixedCamera;
+	    camera.firstPress = false;
+	    std::cout<<"Camera fixed"<<std::endl;
     }
-    else if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE && cKeyPressed) {
-	    cKeyPressed = false;
-	    cameraToggle = false;
+    else if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE) {
+	    camera.firstPress = true;
     } 
+
     if (glfwGetKey(window,GLFW_KEY_W)==GLFW_PRESS && !camera.fixedCamera) {
 	    camera.ProcessKeyboard(FORWARD,delta_time);
     }
@@ -316,6 +445,7 @@ void ProcessInput(GLFWwindow *window)
     if (glfwGetKey(window,GLFW_KEY_D)==GLFW_PRESS && !camera.fixedCamera) {
 	    camera.ProcessKeyboard(RIGHT,delta_time);
     }
+    
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)

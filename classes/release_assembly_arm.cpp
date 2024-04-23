@@ -2,7 +2,7 @@
 
 ReleaseAssemblyArm::ReleaseAssemblyArm(VAOStruct* vao, Shader* shader){
 	angle_x = 0.0f;
-	angular_velocity = 2.0f;
+	angular_velocity = 10.0f;
 	arm_shader = shader;
 	arm_vao = vao;
 	//Convert form Blender to OpenGL
@@ -29,8 +29,8 @@ void ReleaseAssemblyArm::ProcessInput(GLFWwindow* window, float deltaTime){
 glm::mat4 ReleaseAssemblyArm::get_model_matrix(){
 	glm::mat4 model(1.0);
 	glm::vec3 translate_to_origin = -1.0f * position;
-	model = glm::translate(model, translate_to_origin);
-	model = glm::rotate(model, glm::radians(angle_x), glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::translate(model, position);
+	model = glm::rotate(model, glm::radians(angle_x), glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::translate(model, translate_to_origin);
 	return model;
 }

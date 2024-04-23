@@ -10,15 +10,16 @@ class VelocityArrow
 {
 	public:
 		//VelocityArrow(ImportObject* obj);
-		VelocityArrow(VAOStruct* vao, Shader* shader_program);
+		VelocityArrow(VAOStruct* vao, Shader* shader_program, glm::vec3 position);
 		void ProcessInput(GLFWwindow* window, float deltatime);
 		void Draw();
+		float get_angle_y();
 	private:
 		BasicShape arrow_shape;
 		VAOStruct* arrow_vao;
 		Shader* arrow_shader;
-		glm::vec3 arrow_position = glm::vec3(-0.0019, -0.0799, 0.0759);
-		float angular_speed = 2.0f;
+		glm::vec3 arrow_position;
+		float angular_speed = 15.0f;
 		float angle_y = 0.0f;
 		glm::mat4 get_model_matrix();
 };

@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/ICE/ICE_19_1
+# Install script for directory: C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/ICE/ICE_19_1/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

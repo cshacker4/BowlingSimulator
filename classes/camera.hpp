@@ -44,6 +44,7 @@ public:
     glm::mat4 fixedViewMatrix;
     // Fixed Camera Positions
     bool fixedCamera = false;
+    bool firstPress = true;
     // Euler Angles
     float Yaw;
     float Pitch;

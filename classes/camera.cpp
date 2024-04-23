@@ -11,7 +11,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 up,float yaw, float pitch):
         Yaw = yaw;
         Pitch = pitch;
         updateCameraVectors();
-	fixedViewMatrix = glm::lookAt(glm::vec3(0.0f, 1.0f, -3.0f), glm::vec3(0.0f, 1.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	fixedViewMatrix = glm::lookAt(glm::vec3(0.0f, 3.0f, 1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 }
     // Constructor with scalar values
 Camera::Camera(float posX, float posY, float posZ, float upX, float upY,
@@ -30,12 +30,10 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY,
 glm::mat4 Camera::GetViewMatrix()
 {
 	if (fixedCamera){
-		std::cout << "Camera position: " << Position.x << " " << Position.y << " " << Position.z << std::endl;
 		return fixedViewMatrix;
 	}
 
 	else{
-		std::cout << "Camera position: " << Position.x << " " << Position.y << " " << Position.z << std::endl;
 		return glm::lookAt(Position, Position + Front, Up);
 	}
 }
@@ -105,10 +103,4 @@ void Camera::updateCameraVectors()
 	Up    = glm::normalize(glm::cross(Right, Front));
 }
 
-// Change to fixed camera position
-void Camera::ChangeCamera()
-{
-	fixedCamera = !fixedCamera;
-
-}
 
