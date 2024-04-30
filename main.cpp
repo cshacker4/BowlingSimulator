@@ -237,10 +237,6 @@ int main()
 	    BowlingPin(&import_vao, &shader_program, bowling_pins_position + glm::vec3(-3*bowling_pins_length, 0.0, 3*bowling_pins_length))
     };
 
-    BasicShape blue_light_cube = GetCube(vao, blue_light_position, 0.1);
-    BasicShape white_light_cube = GetCube(vao, white_light_position, 0.1);
-    BasicShape origin_cube = GetCube(vao, glm::vec4(0.0,0.0,0.0,1.0), 0.1);
-
     arial_font.initialize(texture_vao);
 
     //Create the shapes
@@ -296,20 +292,6 @@ int main()
 	    glm::vec4(0.0,-1.0, 0.0, 1.0),
 	    glm::vec4(1.0,1.0,1.0,1.0),
 	    12.5};
-
-/*
-    shader_program.setVec4("blue_light.ambient",blue_light.ambient);
-    shader_program.setVec4("blue_light.diffuse",blue_light.diffuse);
-    shader_program.setVec4("blue_light.specular",blue_light.specular);
-    shader_program.setVec4("blue_light.position",blue_light.position);
-    shader_program.setBool("blue_light.on", blue_light.on);
-
-    shader_program.setVec4("white_light.ambient", white_light.ambient);
-    shader_program.setVec4("white_light.diffuse", white_light.diffuse);
-    shader_program.setVec4("white_light.specular", white_light.specular);
-    shader_program.setVec4("white_light.position", white_light.position);
-    shader_program.setBool("white_light.on", white_light.on);
-*/
 
     shader_program.setVec4("spotlight.position", spotlight.position);
     shader_program.setVec4("spotlight.direction", spotlight.direction);
@@ -375,24 +357,10 @@ int main()
 	shader_program.setVec4("view_position",glm::vec4(camera.Position,1.0));
 
 
-	//Draw the light cube
-	//-------------------
-	shader_program.setInt("light_cube",true);
-	shader_program.setBool("is_textured",false);
-	shader_program.setBool("imported_material",false);
-	glm::mat4 transform(1.0);
-	glm::mat4 model(1.0);
-	shader_program.setMat4("transform",transform);
-	shader_program.setMat4("model",model);
-	shader_program.setVec4("set_color",glm::vec4(0.0,0.0,1.0,1.0));
-	//blue_light_cube.Draw();
-	shader_program.setVec4("set_color",glm::vec4(1.0,1.0,1.0,1.0));
-	//origin_cube.Draw();
-	white_light_cube.Draw();
-	shader_program.setInt("light_cube",false);
 
 	//Draw the bowling lane
 	//---------------------
+	//shader_program.setVec4("set_color",glm::vec4(1.0,1.0,1.0,1.0));
 	shader_program.setBool("is_textured",true);
 	shader_program.setBool("imported_material",false);
 	glm::mat4 lane_transform(1.0);

@@ -21,7 +21,7 @@ flat in int vertex_material;
 //if it isn't textured, assume the value of set_color is set.
 uniform vec4 set_color;
 
-uniform int light_cube;
+//uniform int light_cube;
 
 //if it -is- textured, assume this 2D texture is mapped.
 uniform sampler2D ourTexture;
@@ -70,15 +70,9 @@ void main()
 	vec3 direction_to_spotlight = normalize(vec3(spotlight.position) - fragment_position);
     	float theta = dot(spotlight.direction.xyz, normalize(-direction_to_spotlight));
 
-	//handle light cube
-	if (light_cube == 1) {
-		FragColor = set_color;
-		return;
-	}
-
 	//if it isn't textured, set the output color to the color we set.
 	if (textured == 0) {
-		FragColor = set_color;
+		FragColor = vec4(1.0,1.0,1.0,1.0);
 	}
 	//get the color from the texture
 	else {
