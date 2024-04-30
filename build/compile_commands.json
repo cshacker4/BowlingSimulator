@@ -1,86 +1,86 @@
 [
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\Shader.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\Shader.cpp\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\Shader.cpp",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\Shader.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\Shader.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\Shader.cpp",
   "output": "CMakeFiles\\myProgram.dir\\classes\\Shader.cpp.obj"
 },
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\basic_shape.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\basic_shape.cpp\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\basic_shape.cpp",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\basic_shape.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\basic_shape.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\basic_shape.cpp",
   "output": "CMakeFiles\\myProgram.dir\\classes\\basic_shape.cpp.obj"
 },
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\bowling_ball.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\bowling_ball.cpp\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\bowling_ball.cpp",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\bowling_ball.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\bowling_ball.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\bowling_ball.cpp",
   "output": "CMakeFiles\\myProgram.dir\\classes\\bowling_ball.cpp.obj"
 },
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\bowling_pin.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\bowling_pin.cpp\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\bowling_pin.cpp",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\bowling_pin.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\bowling_pin.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\bowling_pin.cpp",
   "output": "CMakeFiles\\myProgram.dir\\classes\\bowling_pin.cpp.obj"
 },
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\camera.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\camera.cpp\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\camera.cpp",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\camera.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\camera.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\camera.cpp",
   "output": "CMakeFiles\\myProgram.dir\\classes\\camera.cpp.obj"
 },
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\import_object.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\import_object.cpp\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\import_object.cpp",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\import_object.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\import_object.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\import_object.cpp",
   "output": "CMakeFiles\\myProgram.dir\\classes\\import_object.cpp.obj"
 },
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\release_assembly_arm.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\release_assembly_arm.cpp\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\release_assembly_arm.cpp",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\release_assembly_arm.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\release_assembly_arm.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\release_assembly_arm.cpp",
   "output": "CMakeFiles\\myProgram.dir\\classes\\release_assembly_arm.cpp.obj"
 },
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\ship.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\ship.cpp\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\ship.cpp",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\ship.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\ship.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\ship.cpp",
   "output": "CMakeFiles\\myProgram.dir\\classes\\ship.cpp.obj"
 },
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\velocity_arrow.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\velocity_arrow.cpp\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\velocity_arrow.cpp",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\velocity_arrow.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\velocity_arrow.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\velocity_arrow.cpp",
   "output": "CMakeFiles\\myProgram.dir\\classes\\velocity_arrow.cpp.obj"
 },
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\vertex_attribute.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\vertex_attribute.cpp\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\classes\\vertex_attribute.cpp",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\vertex_attribute.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\vertex_attribute.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\vertex_attribute.cpp",
   "output": "CMakeFiles\\myProgram.dir\\classes\\vertex_attribute.cpp.obj"
 },
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\fonts\\Font.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\fonts\\Font.cpp\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\fonts\\Font.cpp",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\fonts\\Font.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\fonts\\Font.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\fonts\\Font.cpp",
   "output": "CMakeFiles\\myProgram.dir\\fonts\\Font.cpp.obj"
 },
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\main.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\main.cpp\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\main.cpp",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\main.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\main.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\main.cpp",
   "output": "CMakeFiles\\myProgram.dir\\main.cpp.obj"
 },
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\support\\build_shapes.cpp.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\support\\build_shapes.cpp\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\support\\build_shapes.cpp",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\support\\build_shapes.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\support\\build_shapes.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\support\\build_shapes.cpp",
   "output": "CMakeFiles\\myProgram.dir\\support\\build_shapes.cpp.obj"
 },
 {
-  "directory": "C:/Users/Bryce.Valverde/OneDrive - West Point/AY 2024-2/CS473/Bowling/build",
-  "command": "gcc -o CMakeFiles\\myProgram.dir\\support\\glad.c.obj -c \"C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\support\\glad.c\"",
-  "file": "C:\\Users\\Bryce.Valverde\\OneDrive - West Point\\AY 2024-2\\CS473\\Bowling\\support\\glad.c",
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "gcc -o CMakeFiles\\myProgram.dir\\support\\glad.c.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\support\\glad.c",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\support\\glad.c",
   "output": "CMakeFiles\\myProgram.dir\\support\\glad.c.obj"
 }
 ]

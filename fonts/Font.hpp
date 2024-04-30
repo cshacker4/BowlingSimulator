@@ -20,8 +20,12 @@ class Font
 
         //Draws a single character at a given x and y coordinate (lower left hand)
         void DrawCharacter (char letter, glm::vec2 loc, Shader sProgram, float depth_change = 0);
+
         // Draws the string starting at a given X/Y coordinate (lower left hand)
         void DrawText(std::string s, glm::vec2 start, Shader sProgram);
+
+	//Draws a rectangle at a given x and y coordinate (lower left hand)
+	void DrawRect(Shader sProgram);
 
         //Re-scale the characters.
         void setScale(glm::vec2 newScale);
@@ -38,10 +42,12 @@ class Font
 
         //Get the width of a given character.
         int getCharWidth(int index);
-
-
+	
     private:
         VAOStruct vao;
+	//Semi-constant rectangle for the font
+	BasicShape fontRect;
+
         glm::vec2 getTexCoords(unsigned char c);
         void genCharShape(BasicShape *shape, unsigned char c);
 

@@ -46,6 +46,9 @@ struct Spotlight {
 	float cut_off;
 };
 
+//lights automatically attenuate with distance
+uniform PointLight point_light_list[10];
+
 uniform PointLight blue_light;
 uniform PointLight white_light;
 uniform Spotlight spotlight;
@@ -55,6 +58,7 @@ vec4 CalcPointLight (PointLight light,vec3 norm,vec3 frag,vec3 eye);
 
 void main()
 {
+
 	vec4 blue_light_color = CalcPointLight(blue_light,norm,
 			fragment_position,view_position.xyz);
 	vec4 white_light_color = CalcPointLight(white_light,norm,
@@ -76,13 +80,26 @@ void main()
 	if (textured == 0) {
 		FragColor = set_color;
 	}
+	//get the color from the texture
 	else {
 		//if it -is- textured set the color to the appropriate color in the texture
 		//  according to the texture_coordinates.
 		FragColor = texture(ourTexture,texture_coordinates);
 	}
 
-	FragColor = (blue_light_color + white_light_attenuation * white_light_color) * FragColor;
+	//handle the point lights
+	vec4 final_color = vec4(0.0,0.0,0.0,1.0);
+	int num_point_lights = point_light_list.length();
+	for (int i = 0; i < num_point_lights; i++) {
+		vec4 light_color = CalcPointLight(point_light_list[i],norm,
+			fragment_position,view_position.xyz);
+		float light_distance = length(point_light_list[i].position.xyz - fragment_position);
+		float attenuation = 1.0 / (1.0 + 0.045 * light_distance + 0.0075 * light_distance * light_distance);
+		final_color += light_color * attenuation;
+
+	}
+	FragColor = final_color * FragColor;
+	//FragColor = (blue_light_color + white_light_attenuation * white_light_color) * FragColor;
 
 	if (theta > cos(radians(spotlight.cut_off))) {
 		float intensity = 1.0 / (1.0 + 0.045 * white_light_distance+ 0.0075 * white_light_distance * white_light_distance);

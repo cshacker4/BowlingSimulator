@@ -1,4 +1,3 @@
-
 #include "camera.hpp"
 
 // Constructor with vectors
@@ -11,7 +10,6 @@ Camera::Camera(glm::vec3 position, glm::vec3 up,float yaw, float pitch):
         Yaw = yaw;
         Pitch = pitch;
         updateCameraVectors();
-	fixedViewMatrix = glm::lookAt(glm::vec3(0.0f, 3.0f, 1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 }
     // Constructor with scalar values
 Camera::Camera(float posX, float posY, float posZ, float upX, float upY,
@@ -26,15 +24,20 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY,
         updateCameraVectors();
     }
 
+void Camera::ChangeCameraMode(){
+	cameraMode = (cameraMode + 1) % 3;
+}
+
 // Returns the view matrix calculated using Euler Angles and the LookAt Matrix
 glm::mat4 Camera::GetViewMatrix()
 {
-	if (fixedCamera){
-		return fixedViewMatrix;
-	}
-
-	else{
+	if (cameraMode == 0){
+		fixedCamera = false;
 		return glm::lookAt(Position, Position + Front, Up);
+	}
+	else{
+		fixedCamera = true;	
+		return fixed_camera_list[cameraMode];
 	}
 }
 

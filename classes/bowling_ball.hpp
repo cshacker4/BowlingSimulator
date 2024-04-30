@@ -23,9 +23,9 @@ class BowlingBall
 		BasicShape bowling_ball_shape;
 		VAOStruct* bowling_ball_vao;
 		Shader* ball_shader;
-		float ball_radius = 0.08f;
+		float ball_radius = 0.11f;
 		float ball_weight = 12.0f;
-		glm::vec3 ball_position = glm::vec3(0.2f, 0.0f, 1.0f);
+		glm::vec3 ball_position = glm::vec3(0.0f, 0.0f, 0.0f);
 		glm::vec3 ball_velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 
 };

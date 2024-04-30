@@ -14,7 +14,7 @@ void BowlingBall::ProcessInput(GLFWwindow* window, float deltatime, float angle_
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !mousePressed) {
 		std::cout<<"Mouse pressed"<<std::endl;
 		mousePressed = true;
-		ball_velocity = glm::rotate(glm::mat4(1.0), glm::radians(angle_y), glm::vec3(0.0,1.0,0.0)) * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+		ball_velocity = glm::rotate(glm::mat4(1.0), glm::radians(angle_y), glm::vec3(0.0,8.0,0.0)) * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 	}
 	ball_position += (ball_velocity * deltatime);
 }

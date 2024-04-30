@@ -12,13 +12,11 @@ class ReleaseAssemblyArm{
 		void Draw();
 		void ProcessInput(GLFWwindow* window, float deltaTime);
 	private:
-		float angle_x;
-		float angular_velocity;
-		glm::vec3 position = glm::vec3(0.4910, 0.5532, 18.5099);
+		float angle_x = 90.0f;
+		float angular_velocity = 20.0f;
+		glm::vec3 position = glm::vec3(0.0f, 0.5f, 18.0f);
 		Shader* arm_shader;
 		VAOStruct* arm_vao;
 		BasicShape arm_shape;
-		glm::mat4 get_model_matrix();
-
 };
 

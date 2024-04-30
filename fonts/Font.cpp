@@ -16,6 +16,12 @@ Font::Font(std::string fontBMP, std::string fontCSV,float scaleX,float scaleY)
 
 void Font::initialize(VAOStruct vao) {
     this->vao = vao;
+
+    //Creates and returns a BasicShape rectangle given a VAO, a bottom left point, a width,
+    // a height, and a texture size used to cause a wrapping effect
+    //BasicShape GetTexturedRectangle (VAOStruct vao, glm::vec3 bottom_left, float width, float height,float texture_size = 1.0, bool flipped = false);
+    this->fontRect = GetTexturedRectangle(vao,glm::vec3(-1.0f,0.0f,0.0f),1.0f, 1.0f, 1.0f);
+
     this->texNumber = GetTexture(this->BMPfilename,true);
     
     std::ifstream infile(this->CSVfilename.c_str());
@@ -58,6 +64,7 @@ void Font::initialize(VAOStruct vao) {
 // character, a shader program, and a depth (z).
 void Font::DrawCharacter (char letter, glm::vec2 loc, Shader sProgram, float depth_change) {
     sProgram.use();
+    sProgram.setInt("is_textured",true);
     glm::mat4 mod = glm::mat4(1.0f);
     mod = glm::translate(mod,glm::vec3(loc.x,loc.y,depth_change));
     mod = glm::scale(mod,glm::vec3(this->scaleX,this->scaleY,1.0f));
@@ -90,6 +97,17 @@ void Font::DrawText(std::string s, glm::vec2 start, Shader sProgram) {
          depth+=0.01;
         this->DrawCharacter(s[i],start,sProgram,depth);
     }
+}
+
+//Draw the semi-transparent rectangle that the font is drawn on.
+void Font::DrawRect(Shader sProgram) {
+    sProgram.use();
+    sProgram.setBool("is_textured",false);
+    sProgram.setVec4("color",glm::vec4(1.0f,0.0f,0.0f,0.5f));
+    glm::mat4 mod = glm::mat4(1.0f);
+    sProgram.setMat4("transform",mod);
+    this->fontRect.Draw(sProgram);
+    sProgram.setBool("is_textured",true);
 }
 
 
