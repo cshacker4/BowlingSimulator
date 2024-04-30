@@ -41,6 +41,9 @@ BasicShape GetTexturedCircle (VAOStruct vao, float radius=1.0, int points= 40, g
 BasicShape GetStars (VAOStruct vao, int number_stars);
 
 //Build a cube with a VAO, origin, and distance
-BasicShape GetCube (VAOStruct vao, glm::vec3 origin, float distance = 1.0);
+BasicShape GetCube (VAOStruct vao);
+
+//retrun an unsigned int for a cubemap texture
+unsigned GetCubeMap (const std::vector<std::string>& faces, bool flipped = false);
 
 #endif //BUILD_SHAPES_HPP

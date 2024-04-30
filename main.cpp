@@ -173,6 +173,7 @@ int main()
     //-------------------------
     Shader shader_program(".//shaders//vertex.glsl",".//shaders//fragment.glsl");
     Shader font_program(".//shaders//vertex.glsl",".//shaders//fontFragmentShader.glsl");
+    Shader skybox_shader(".//shaders//skyBoxVertex.glsl",".//shaders//skyBoxFragment.glsl");
 
     //Create the VAO
     //-------------------------
@@ -207,6 +208,13 @@ int main()
     import_vao.attributes.push_back(BuildAttribute(2,GL_FLOAT,false,14*sizeof(float),6*sizeof(float)));
     import_vao.attributes.push_back(BuildAttribute(3,GL_FLOAT,false,14*sizeof(float),8*sizeof(float)));
     import_vao.attributes.push_back(BuildAttribute(3,GL_FLOAT,false,14*sizeof(float),11*sizeof(float)));
+
+    //Create the skybox VAO
+    VAOStruct skybox_vao;
+    //Handles location (x,y,z)
+    glGenVertexArrays(1,&(skybox_vao.id));
+    skybox_vao.attributes.push_back(BuildAttribute(3,GL_FLOAT,false,3*sizeof(float),0));
+
     
     ImportOBJ importer;
 
@@ -311,6 +319,30 @@ int main()
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    //Create the skybox
+    //-------------------------
+    std::vector<std::string> faces
+    {
+	    /*
+	       "./textures/skybox/right.jpg",
+	       "./textures/skybox/left.jpg",
+	       "./textures/skybox/top.jpg",
+	       "./textures/skybox/bottom.jpg",
+	       "./textures/skybox/front.jpg",
+	       "./textures/skybox/back.jpg"
+	       */
+	    "./textures/roombox/px.png",
+		    "./textures/roombox/nx.png",
+		    "./textures/roombox/py.png",
+		    "./textures/roombox/ny.png",
+		    "./textures/roombox/pz.png",
+		    "./textures/roombox/nz.png"
+
+    };
+    unsigned int cubemapTexture = GetCubeMap(faces); 
+    BasicShape skybox = GetCube(skybox_vao);
+
 
     // render loop
     // -----------
@@ -458,6 +490,20 @@ int main()
 		arial_font.DrawText(pins_standing_str,glm::vec2(-1.0f, 0.4f),font_program);
 
 	} 
+
+	//Draw skybox last
+	//----------------------------
+	skybox_shader.use();
+	//remove the translation component of the view matrix
+	view = glm::mat4(glm::mat3(camera.GetViewMatrix()));
+	skybox_shader.setMat4("view",view);
+	skybox_shader.setMat4("projection",projection);
+	glDepthFunc(GL_EQUAL);
+	//bind skybox texture
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+	skybox.Draw();
+	glDepthFunc(GL_LESS);
+
        
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------

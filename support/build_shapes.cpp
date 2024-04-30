@@ -292,55 +292,101 @@ BasicShape GetStars (VAOStruct vao, int number_stars)
 
 }
 
-BasicShape GetCube (VAOStruct vao, glm::vec3 origin, float size) {
-	//X, Y, Z, NX, NY, NZ
-	float cube_data[] = {
-		// Front face
-		origin.x - size, origin.y - size, origin.z + size, 0.0f, 0.0f, 1.0f,
-		origin.x + size, origin.y - size, origin.z + size, 0.0f, 0.0f, 1.0f,
-		origin.x + size, origin.y + size, origin.z + size, 0.0f, 0.0f, 1.0f,
-		origin.x - size, origin.y - size, origin.z + size, 0.0f, 0.0f, 1.0f,
-		origin.x + size, origin.y + size, origin.z + size, 0.0f, 0.0f, 1.0f,
-		origin.x - size, origin.y + size, origin.z + size, 0.0f, 0.0f, 1.0f,
-		// Back face
-		origin.x - size, origin.y - size, origin.z - size, 0.0f, 0.0f, -1.0f,
-		origin.x + size, origin.y - size, origin.z - size, 0.0f, 0.0f, -1.0f,
-		origin.x + size, origin.y + size, origin.z - size, 0.0f, 0.0f, -1.0f,
-		origin.x - size, origin.y - size, origin.z - size, 0.0f, 0.0f, -1.0f,
-		origin.x + size, origin.y + size, origin.z - size, 0.0f, 0.0f, -1.0f,
-		origin.x - size, origin.y + size, origin.z - size, 0.0f, 0.0f, -1.0f,
-		// Left face
-		origin.x - size, origin.y - size, origin.z - size, -1.0f, 0.0f, 0.0f,
-		origin.x - size, origin.y - size, origin.z + size, -1.0f, 0.0f, 0.0f,
-		origin.x - size, origin.y + size, origin.z + size, -1.0f, 0.0f, 0.0f,
-		origin.x - size, origin.y - size, origin.z - size, -1.0f, 0.0f, 0.0f,
-		origin.x - size, origin.y + size, origin.z + size, -1.0f, 0.0f, 0.0f,
-		origin.x - size, origin.y + size, origin.z - size, -1.0f, 0.0f, 0.0f,
-		// Right face
-		origin.x + size, origin.y - size, origin.z + size, 1.0f, 0.0f, 0.0f,
-		origin.x + size, origin.y - size, origin.z - size, 1.0f, 0.0f, 0.0f,
-		origin.x + size, origin.y + size, origin.z - size, 1.0f, 0.0f, 0.0f,
-		origin.x + size, origin.y - size, origin.z + size, 1.0f, 0.0f, 0.0f,
-		origin.x + size, origin.y + size, origin.z - size, 1.0f, 0.0f, 0.0f,
-		origin.x + size, origin.y + size, origin.z + size, 1.0f, 0.0f, 0.0f,
-		// Top face
-		origin.x - size, origin.y + size, origin.z + size, 0.0f, 1.0f, 0.0f,
-		origin.x + size, origin.y + size, origin.z + size, 0.0f, 1.0f, 0.0f,
-		origin.x + size, origin.y + size, origin.z - size, 0.0f, 1.0f, 0.0f,
-		origin.x - size, origin.y + size, origin.z + size, 0.0f, 1.0f, 0.0f,
-		origin.x + size, origin.y + size, origin.z - size, 0.0f, 1.0f, 0.0f,
-		origin.x - size, origin.y + size, origin.z - size, 0.0f, 1.0f, 0.0f,
-		// Bottom face
-		origin.x - size, origin.y - size, origin.z - size, 0.0f, -1.0f, 0.0f,
-		origin.x + size, origin.y - size, origin.z - size, 0.0f, -1.0f, 0.0f,
-		origin.x + size, origin.y - size, origin.z + size, 0.0f, -1.0f, 0.0f,
-		origin.x - size, origin.y - size, origin.z - size, 0.0f, -1.0f, 0.0f,
-		origin.x + size, origin.y - size, origin.z + size, 0.0f, -1.0f, 0.0f,
-		origin.x - size, origin.y - size, origin.z + size, 0.0f, -1.0f, 0.0f
-	};
+//Accepts a vector of strings as input and a boolean value (for flipping the texture on load...default is false) and returns an unsigned integer
+//unsigned GetCubeMap (const std::vector<std::string>& faces, bool flipped = false);
+unsigned GetCubeMap (const std::vector<std::string>& faces, bool flipped)
+{
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
-	BasicShape new_shape;
-	new_shape.Initialize(vao,cube_data,sizeof(cube_data),36,GL_TRIANGLES);
-	return new_shape;
+	int width, height, nrChannels;
+	
+	if (flipped) {
+		stbi_set_flip_vertically_on_load(true);
+	} else {
+		stbi_set_flip_vertically_on_load(false);
+	}
+
+	for (unsigned int i = 0; i < faces.size(); i++)
+	{
+		unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
+		if (data)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 
+					0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
+				    );
+			stbi_image_free(data);
+		}
+		else
+		{
+			std::cout << "Cubemap tex failed to load at path: " << faces[i] << std::endl;
+			stbi_image_free(data);
+		}
+	}
+
+	//reset flipping
+	stbi_set_flip_vertically_on_load(false);
+
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+	return textureID;
 }
 
+BasicShape GetCube(VAOStruct vao){
+	BasicShape new_shape;
+	float skyboxVertices[] = {
+		// positions          
+		-1.0f,  1.0f, -1.0f,
+		-1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		-1.0f,  1.0f, -1.0f,
+		1.0f,  1.0f, -1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		1.0f, -1.0f,  1.0f
+	};
+	//Initializes a BasicShape object given a VAOStruct, a pointer to vertex data, and integer for the number
+        //of bytes in the data, an int for the number of vertices, and an int for the primitive used (default is GL_TRIANGLES) 
+        //void Initialize(VAOStruct vao, float* vertices, int vertices_bytes, int num_vertices, GLuint prim = GL_TRIANGLES);
+
+	new_shape.Initialize(vao, skyboxVertices, sizeof(skyboxVertices), sizeof(skyboxVertices)/sizeof(skyboxVertices[0]));
+	return new_shape;
+};

@@ -14,7 +14,7 @@ void ReleaseAssemblyArm::Draw(){
 	glm::mat4 translate_to_origin = glm::translate(glm::mat4(1.0), -1.0f * position);
 	glm::mat4 rotate = glm::rotate(glm::mat4(1.0), glm::radians(angle_x), glm::vec3(1.0f, 0.0f, 0.0f));
 	glm::mat4 translate_back = glm::translate(glm::mat4(1.0), position);
-	glm::mat4 avatar_model = translate_back * rotate * translate_to_origin * glm::mat4(1.0);
+	glm::mat4 avatar_model =  translate_back * rotate * translate_to_origin * glm::mat4(1.0);
 	arm_shader->setMat4("model",avatar_model);
 	arm_shader->setMat4("transform",avatar_transform);
 	arm_shape.Draw(*arm_shader);
