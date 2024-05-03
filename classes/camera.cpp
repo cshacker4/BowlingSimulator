@@ -24,12 +24,12 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY,
         updateCameraVectors();
     }
 
-void Camera::ChangeCameraMode(){
-	cameraMode = (cameraMode + 1) % 3;
+void Camera::ChangeCameraMode(int mode){
+	cameraMode = mode;
 }
 
 // Returns the view matrix calculated using Euler Angles and the LookAt Matrix
-glm::mat4 Camera::GetViewMatrix()
+glm::mat4 Camera::GetCameraViewMatrix()
 {
 	if (cameraMode == 0){
 		fixedCamera = false;
@@ -39,6 +39,12 @@ glm::mat4 Camera::GetViewMatrix()
 		fixedCamera = true;	
 		return fixed_camera_list[cameraMode];
 	}
+}
+
+//get the camera view matrix for a camera mode
+glm::mat4 Camera::GetViewMatrix(int mode){
+	return fixed_camera_list[mode];
+
 }
 
     // Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)

@@ -93,7 +93,6 @@ PointLight white_light{
 		true
 };
 
-
 struct Spotlight {
 	glm::vec4 position;
 	glm::vec4 direction;
@@ -272,7 +271,6 @@ int main()
     glGenVertexArrays(1,&(skybox_vao.id));
     skybox_vao.attributes.push_back(BuildAttribute(3,GL_FLOAT,false,3*sizeof(float),0));
 
-    
     ImportOBJ importer;
 
     BasicShape bowling_lane = importer.loadFiles("models/BowlingLane",import_vao);
@@ -281,7 +279,6 @@ int main()
     std::cout<<bowling_ball.get_position().x<<std::endl;
     VelocityArrow velocity_arrow(&import_vao, &shader_program, bowling_ball.get_position());
     ReleaseAssemblyArm release_assembly_arm(&import_vao, &shader_program);
-
     BasicShape television_shape = importer.loadFiles("models/Television",import_vao);
 
 
@@ -301,6 +298,7 @@ int main()
 	    BowlingPin(&import_vao, &shader_program, bowling_pins_position + glm::vec3(-bowling_pins_length, 0.0, 3*bowling_pins_length)),
 	    BowlingPin(&import_vao, &shader_program, bowling_pins_position + glm::vec3(-3*bowling_pins_length, 0.0, 3*bowling_pins_length))
     };
+    int pins_standing = 10;
 
     arial_font.initialize(texture_vao);
 
@@ -373,126 +371,192 @@ int main()
     unsigned int cubemapTexture = GetCubeMap(faces); 
     BasicShape skybox = GetCube(skybox_vao);
 
+    //framebuffer settings
+    //---------------------
+    BasicShape screen_image = GetTexturedRectangle(texture_vao, glm::vec3(-1.424226, 1.479546, 1.513289), 2.848452, 1.469004,1.0f,false);
+
+    //create fbo
+    unsigned int fbo;
+    glGenFramebuffers(1, &fbo);
+    // bind the framebuffer
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+    //create fbo color attachment for the first texture
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    //bind the texture
+    glBindTexture(GL_TEXTURE_2D, texture);
+    //allocate memory for the texture
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // create a renderbuffer for possible depth and stencil attachments
+    unsigned int rbo;
+    glGenRenderbuffers(1, &rbo);
+
+    glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, SCR_WIDTH, SCR_HEIGHT); // use a single renderbuffer object for both a depth AND stencil buffer.
+
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+
+    // check if the framebuffer is complete for both textures
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE){
+	    // execute victory dance
+	    std::cout << "Framebuffer is complete" << std::endl;
+    }
+    else{
+	    std::cout << "Framebuffer is not complete" << std::endl;
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 
     // render loop
     // -----------
 
     while (!glfwWindowShouldClose(window))
     {
-        // adjust for real time
-        float current_frame = glfwGetTime();
-        delta_time = current_frame - last_frame;
-        last_frame = current_frame; 
-        // input
-        // -----
-        ProcessInput(window);
+	    for(unsigned int i = 0; i < 2; i++) {
+		    // decide which texture to use
+		    if (i == 0){
+			    //handle texture
+			    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+		    }
+		    //set viewport transformation
+		    glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+		    glClearColor(clear_color.r,clear_color.g,clear_color.b,clear_color.a);
+		    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // render
-        // ------
-        glClearColor(clear_color.r,clear_color.g,clear_color.b,clear_color.a);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		    // adjust for real time
+		    float current_frame = glfwGetTime();
+		    delta_time = current_frame - last_frame;
+		    last_frame = current_frame; 
+		    // input
+		    // -----
+		    ProcessInput(window);
 
-	shader_program.use();
+		    shader_program.use();
+		    shader_program.setBool("screen", false);
+		    if (i == 0){
+			    view = camera.GetViewMatrix(2);
 
-	view = camera.GetViewMatrix();
-	shader_program.setMat4("view",view);
-	shader_program.setVec4("view_position",glm::vec4(camera.Position,1.0));
+		    }
+		    else {
+			    view = camera.GetCameraViewMatrix();
+		    }
+		    shader_program.setMat4("view",view);
+		    shader_program.setVec4("view_position",glm::vec4(camera.Position,1.0));
 
-	//Set the light properties
-	//-------------------------
-	for (int i= 0; i < num_lights; i++) {
-		shader_program.setVec4("point_light_list["+std::to_string(i)+"].ambient",point_light_list[i].ambient);
-		shader_program.setVec4("point_light_list["+std::to_string(i)+"].diffuse",point_light_list[i].diffuse);
-		shader_program.setVec4("point_light_list["+std::to_string(i)+"].specular",point_light_list[i].specular);
-		shader_program.setVec4("point_light_list["+std::to_string(i)+"].position",point_light_list[i].position);
-		shader_program.setBool("point_light_list["+std::to_string(i)+"].on", point_light_list[i].on);
-	}	
+		    //Set the light properties
+		    //-------------------------
+		    for (int i= 0; i < num_lights; i++) {
+			    shader_program.setVec4("point_light_list["+std::to_string(i)+"].ambient",point_light_list[i].ambient);
+			    shader_program.setVec4("point_light_list["+std::to_string(i)+"].diffuse",point_light_list[i].diffuse);
+			    shader_program.setVec4("point_light_list["+std::to_string(i)+"].specular",point_light_list[i].specular);
+			    shader_program.setVec4("point_light_list["+std::to_string(i)+"].position",point_light_list[i].position);
+			    shader_program.setBool("point_light_list["+std::to_string(i)+"].on", point_light_list[i].on);
+		    }	
 
-	//Draw the bowling lane
-	//---------------------
-	//shader_program.setVec4("set_color",glm::vec4(1.0,1.0,1.0,1.0));
-	shader_program.setBool("is_textured",true);
-	shader_program.setBool("imported_material",false);
-	glm::mat4 lane_transform(1.0);
-	glm::mat4 lane_model(1.0);
-	shader_program.setMat4("model",lane_model);
-	shader_program.setMat4("transform",lane_transform);
-	glBindTexture(GL_TEXTURE_2D,bowling_lane_texture);
-	bowling_lane.Draw();
-	glBindTexture(GL_TEXTURE_2D,0);
+		    //Draw the bowling lane
+		    //---------------------
+		    shader_program.setBool("is_textured",true);
+		    shader_program.setBool("imported_material",false);
+		    glm::mat4 lane_transform(1.0);
+		    glm::mat4 lane_model(1.0);
+		    shader_program.setMat4("model",lane_model);
+		    shader_program.setMat4("transform",lane_transform);
+		    glBindTexture(GL_TEXTURE_2D,bowling_lane_texture);
+		    bowling_lane.Draw();
+		    glBindTexture(GL_TEXTURE_2D,0);
 
-        //Draw the realease assembly arm
-	//---------------------
-	release_assembly_arm.ProcessInput(window, delta_time);
-       	release_assembly_arm.Draw();
+		    //Draw the realease assembly arm
+		    //---------------------
+		    release_assembly_arm.ProcessInput(window, delta_time);
+		    release_assembly_arm.Draw();
 
-	//Draw the arrow
-	//----------------------
-	velocity_arrow.ProcessInput(window, delta_time);
-	velocity_arrow.Draw();
+		    //Draw the arrow
+		    //----------------------
+		    velocity_arrow.ProcessInput(window, delta_time);
+		    velocity_arrow.Draw();
 
-	//Draw the bowling ball
-	//----------------------
-	float velocity_arrow_angle = velocity_arrow.get_angle_y();
-	bowling_ball.ProcessInput(window, delta_time, velocity_arrow_angle);
-	bowling_ball.Draw();
+		    //Draw the bowling ball
+		    //----------------------
+		    float velocity_arrow_angle = velocity_arrow.get_angle_y();
+		    bowling_ball.ProcessInput(window, delta_time, velocity_arrow_angle);
+		    bowling_ball.Draw();
 
-	//Draw the bowling pin and count the number of pins that are still standing
-	int pins_standing = 0;
-	//----------------------
-	for (int i = 0; i < 10; i++) {
-		handle_ball_pin_collision(&bowling_ball, &bowling_pins[i]);
-		if (bowling_pins[i].get_is_hit()) pins_standing ++;
-		bowling_pins[i].ProcessInput(window, delta_time);
-		bowling_pins[i].Draw();
-	}
-	//Fun part
-	for (int i = 0; i < 10; i++) {
-		for (int j = i+1; j < 10; j++) {
-			handle_pin_pin_collision(&bowling_pins[i], &bowling_pins[j]);
-		}
-	}
+		    //Draw the bowling pin and count the number of pins that are still standing
+		    int new_pins_standing = 0;
+		    //----------------------
+		    for (int i = 0; i < 10; i++) {
+			    handle_ball_pin_collision(&bowling_ball, &bowling_pins[i]);
+			    if (!bowling_pins[i].get_is_hit()) new_pins_standing ++;
+			    bowling_pins[i].ProcessInput(window, delta_time);
+			    bowling_pins[i].Draw();
+		    }
+		    pins_standing = new_pins_standing;
 
-	//Draw the television
-	//--------------------
-	model = glm::mat4(1.0);
-	shader_program.setMat4("model",model);
-	shader_program.setMat4("transform",television_transform);
-	shader_program.setBool("imported_material",true);
-	television_shape.Draw(shader_program);
-	shader_program.setBool("imported_material",false);
-	shader_program.setMat4("transform",identity_matrix);
+		    //Fun part
+		    for (int i = 0; i < 10; i++) {
+			    for (int j = i+1; j < 10; j++) {
+				    handle_pin_pin_collision(&bowling_pins[i], &bowling_pins[j]);
+			    }
+		    }
 
-	//Draw the text
-        shader_program.setBool("is_textured",true);
-        shader_program.setMat4("model",model);
-        shader_program.setMat4("transform",identity_matrix);
-        
-        //Draw the text so that it stays with the camera
-	if (display_text) {
-		//void draw_text(Shader* shader, Font* font, glm::vec3 camera_position, glm::vec3 ball_position, int pins_standing) {
-		draw_text(&font_program, &arial_font, camera.Position, bowling_ball.get_position(), pins_standing);
-	} 
+		    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		    }
 
-	//Draw skybox last
-	//----------------------------
-	skybox_shader.use();
-	//remove the translation component of the view matrix
-	view = glm::mat4(glm::mat3(camera.GetViewMatrix()));
-	skybox_shader.setMat4("view",view);
-	skybox_shader.setMat4("projection",projection);
-	glDepthFunc(GL_EQUAL);
-	//bind skybox texture
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-	skybox.Draw();
-	glDepthFunc(GL_LESS);
+		    //Draw the television
+		    //--------------------
+		    shader_program.use();
+		    shader_program.setBool("is_textured", false);
+		    shader_program.setBool("imported_material", true);
 
-       
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
+		    model = glm::mat4(1.0);
+		    shader_program.setMat4("model",model);
+		    shader_program.setMat4("transform",television_transform);
+		    television_shape.Draw(shader_program);
+
+		    //Draw the text so that it stays with the camera
+		    if (display_text) {
+			    shader_program.setBool("imported_material",false);
+			    shader_program.setBool("is_textured", true);
+
+			    shader_program.setMat4("transform",identity_matrix);
+
+			    shader_program.setMat4("model",model);
+			    shader_program.setMat4("transform",identity_matrix);
+
+			    //void draw_text(Shader* shader, Font* font, glm::vec3 camera_position, glm::vec3 ball_position, int pins_standing) {
+			    draw_text(&font_program, &arial_font, camera.Position, bowling_ball.get_position(), pins_standing);
+		    } 
+
+		    //Draw skybox last
+		    //----------------------------
+		    skybox_shader.use();
+		    //remove the translation component of the view matrix
+		    view = glm::mat4(glm::mat3(camera.GetCameraViewMatrix()));
+		    skybox_shader.setMat4("view",view);
+		    skybox_shader.setMat4("projection",projection);
+		    glDepthFunc(GL_EQUAL);
+		    //bind skybox texture
+		    glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+		    skybox.Draw();
+		    glDepthFunc(GL_LESS);
+
+		    shader_program.use();
+		    shader_program.setBool("is_textured", true);
+		    shader_program.setBool("screen", true);
+		    glBindTexture(GL_TEXTURE_2D, texture);
+		    screen_image.Draw();
+
+		    // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+		    // -------------------------------------------------------------------------------
+		    glfwSwapBuffers(window);
+		    glfwPollEvents();
+
+	    }
 
 
 
@@ -539,7 +603,7 @@ void ProcessInput(GLFWwindow *window)
     // Upon C key press, the camera will change
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && camera.firstPress) {
 	    //toggle the camera
-	    camera.ChangeCameraMode(); 
+	    camera.ChangeCameraMode((camera.cameraMode + 1) % 3); 
 	    camera.firstPress = false;
 	    std::cout<<"Camera fixed"<<std::endl;
     }

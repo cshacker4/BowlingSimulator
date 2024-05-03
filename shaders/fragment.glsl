@@ -21,7 +21,7 @@ flat in int vertex_material;
 //if it isn't textured, assume the value of set_color is set.
 uniform vec4 set_color;
 
-//uniform int light_cube;
+uniform bool screen;
 
 //if it -is- textured, assume this 2D texture is mapped.
 uniform sampler2D ourTexture;
@@ -79,6 +79,11 @@ void main()
 		//if it -is- textured set the color to the appropriate color in the texture
 		//  according to the texture_coordinates.
 		FragColor = texture(ourTexture,texture_coordinates);
+	}
+
+	//if the shape is a screen, set the color to the set color.
+	if (screen == true) {
+		return;
 	}
 
 	//handle the point lights
