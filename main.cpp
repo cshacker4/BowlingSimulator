@@ -56,6 +56,7 @@ glm::mat4 television_transform = glm::translate(glm::mat4(1.0),glm::vec3(0.0f,0.
 
 //Camera Object
 Camera camera(glm::vec3(0.0f,1.0f,-3.0f),glm::vec3(0.0f,1.0f,0.0f),90.0f,0.0f);
+
 float delta_time{0.001};
 float last_frame{0.0};
 
@@ -76,12 +77,35 @@ struct PointLight {
     //add coefficients for attenuation here
     bool on;
 };
+
+PointLight blue_light{
+	blue_light_position,
+		glm::vec4(0.0f, 0.0f, 0.1f, 1.0f), 
+		glm::vec4(0.2f, 0.2f, 1.0f, 1.0f),
+		glm::vec4(0.0f, 0.0f, 1.0f,1.0f),
+		true
+};
+PointLight white_light{
+	white_light_position,
+		glm::vec4(0.0f, 0.0f, 0.1f, 1.0f), 
+		glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
+		glm::vec4(1.0f, 1.0f, 1.0f,1.0f),
+		true
+};
+
+
 struct Spotlight {
 	glm::vec4 position;
 	glm::vec4 direction;
 	glm::vec4 color;
 	float cut_off;
 };
+
+Spotlight spotlight = {glm::vec4(0.0,3.0,19.0, 1.0),
+	glm::vec4(0.0,-1.0, 0.0, 1.0),
+	glm::vec4(1.0,1.0,1.0,1.0),
+	12.5};
+
 
 //Handle Collision
 //----------------
@@ -105,7 +129,7 @@ void calculate_ball_pin_velocity(BowlingBall* ball, BowlingPin* pin) {
 	ball->set_velocity(ball_velocity);
 	pin->set_velocity(pin_velocity);
 }
-//TODO Make a function to handle collision between any two objects
+// Make a function to handle collision between any two objects
 void calculate_velocity_after_collision(BowlingPin* pin1, BowlingPin* pin2) {
 	// Calculate new velocities using conservation of momentum and kinetic energy
 	float pin1_weight = pin1->get_weight();
@@ -154,6 +178,39 @@ void handle_pin_pin_collision(BowlingPin* pin1, BowlingPin* pin2) {
 		pin2->set_is_hit(true);
 		std::cout<<"Collision detected"<<std::endl;
 	}
+}
+
+//Draw text on screen
+void draw_text(Shader* shader, Font* font, glm::vec3 camera_position, glm::vec3 ball_position, int pins_standing) {
+	glm::mat4 model = glm::mat4(1.0);
+	shader->use();
+	shader->setMat4("model", model);
+	std::string camera_position_str = "Camera (";
+	std::string cam_x = std::to_string(camera_position.x);
+	std::string cam_y = std::to_string(camera_position.y);
+	std::string cam_z = std::to_string(camera_position.z);
+
+	camera_position_str += cam_x.substr(0,cam_x.find(".")+3) +",";
+	camera_position_str += cam_y.substr(0,cam_y.find(".")+3) +",";
+	camera_position_str += cam_z.substr(0,cam_z.find(".")+3) +")";
+
+	std::string ball_position_str = "Ball (";
+	std::string ball_x = std::to_string(ball_position.x);
+	std::string ball_y = std::to_string(ball_position.y);
+	std::string ball_z = std::to_string(ball_position.z);
+
+	ball_position_str += ball_x.substr(0,ball_x.find(".")+3) +",";
+	ball_position_str += ball_y.substr(0,ball_y.find(".")+3) +",";
+	ball_position_str += ball_z.substr(0,ball_z.find(".")+3) +")";
+
+	std::string pins_standing_str = "Pins standing: ";
+	pins_standing_str += std::to_string(pins_standing);
+
+	arial_font.DrawRect(*shader);
+	arial_font.DrawText(camera_position_str,glm::vec2(-1.0f, 0.8f),*shader);
+	arial_font.DrawText(ball_position_str,glm::vec2(-1.0f, 0.6f),*shader);
+	arial_font.DrawText(pins_standing_str,glm::vec2(-1.0f, 0.4f),*shader);
+
 }
 
 int main()
@@ -269,37 +326,10 @@ int main()
     //---------
     PointLight point_light_list[10];
 
-    PointLight blue_light{
-	    blue_light_position,
-		    glm::vec4(0.0f, 0.0f, 0.1f, 1.0f), 
-		    glm::vec4(0.2f, 0.2f, 1.0f, 1.0f),
-		    glm::vec4(0.0f, 0.0f, 1.0f,1.0f),
-		    true
-    };
-    PointLight white_light{
-	    white_light_position,
-		    glm::vec4(0.0f, 0.0f, 0.1f, 1.0f), 
-		    glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
-		    glm::vec4(1.0f, 1.0f, 1.0f,1.0f),
-		    true
-    };
-
     point_light_list[0] = blue_light;
     point_light_list[1] = white_light;
 
     int num_lights = sizeof(point_light_list)/sizeof(PointLight);
-    for (int i= 0; i < num_lights; i++) {
-	    shader_program.setVec4("point_light_list["+std::to_string(i)+"].ambient",point_light_list[i].ambient);
-	    shader_program.setVec4("point_light_list["+std::to_string(i)+"].diffuse",point_light_list[i].diffuse);
-	    shader_program.setVec4("point_light_list["+std::to_string(i)+"].specular",point_light_list[i].specular);
-	    shader_program.setVec4("point_light_list["+std::to_string(i)+"].position",point_light_list[i].position);
-	    shader_program.setBool("point_light_list["+std::to_string(i)+"].on", point_light_list[i].on);
-    }
-
-    Spotlight spotlight = {glm::vec4(0.0,3.0,19.0, 1.0),
-	    glm::vec4(0.0,-1.0, 0.0, 1.0),
-	    glm::vec4(1.0,1.0,1.0,1.0),
-	    12.5};
 
     shader_program.setVec4("spotlight.position", spotlight.position);
     shader_program.setVec4("spotlight.direction", spotlight.direction);
@@ -357,10 +387,6 @@ int main()
         // -----
         ProcessInput(window);
 
-	//Handle light toggle
-	//-------------------
-	
-
         // render
         // ------
         glClearColor(clear_color.r,clear_color.g,clear_color.b,clear_color.a);
@@ -368,27 +394,19 @@ int main()
 
 	shader_program.use();
 
-	//Take care of the light toggle
-	if (glfwGetKey(window, GLFW_KEY_L)) {
-		lKeyPressed = true;
-		if (!lightToggle){
-			std::cout<<"Light switch"<<std::endl;
-			blue_light.on = !blue_light.on;
-			std::cout<<"Blue light on: "<<blue_light.on<<std::endl;
-			shader_program.setBool("blue_light.on",blue_light.on);
-			lightToggle = true;
-		}
-	}
-	else if (glfwGetKey(window, GLFW_KEY_L) == GLFW_RELEASE && lKeyPressed) {
-		lKeyPressed = false;
-		lightToggle = false;
-	}
-
 	view = camera.GetViewMatrix();
 	shader_program.setMat4("view",view);
 	shader_program.setVec4("view_position",glm::vec4(camera.Position,1.0));
 
-
+	//Set the light properties
+	//-------------------------
+	for (int i= 0; i < num_lights; i++) {
+		shader_program.setVec4("point_light_list["+std::to_string(i)+"].ambient",point_light_list[i].ambient);
+		shader_program.setVec4("point_light_list["+std::to_string(i)+"].diffuse",point_light_list[i].diffuse);
+		shader_program.setVec4("point_light_list["+std::to_string(i)+"].specular",point_light_list[i].specular);
+		shader_program.setVec4("point_light_list["+std::to_string(i)+"].position",point_light_list[i].position);
+		shader_program.setBool("point_light_list["+std::to_string(i)+"].on", point_light_list[i].on);
+	}	
 
 	//Draw the bowling lane
 	//---------------------
@@ -419,10 +437,12 @@ int main()
 	bowling_ball.ProcessInput(window, delta_time, velocity_arrow_angle);
 	bowling_ball.Draw();
 
-	//Draw the bowling pin
+	//Draw the bowling pin and count the number of pins that are still standing
+	int pins_standing = 0;
 	//----------------------
 	for (int i = 0; i < 10; i++) {
 		handle_ball_pin_collision(&bowling_ball, &bowling_pins[i]);
+		if (bowling_pins[i].get_is_hit()) pins_standing ++;
 		bowling_pins[i].ProcessInput(window, delta_time);
 		bowling_pins[i].Draw();
 	}
@@ -450,45 +470,8 @@ int main()
         
         //Draw the text so that it stays with the camera
 	if (display_text) {
-
-		font_program.use();
-		std::string camera_position_str = "Camera (";
-		std::string cam_x = std::to_string(camera.Position.x);
-		std::string cam_y = std::to_string(camera.Position.y);
-		std::string cam_z = std::to_string(camera.Position.z);
-
-		camera_position_str += cam_x.substr(0,cam_x.find(".")+3) +",";
-		camera_position_str += cam_y.substr(0,cam_y.find(".")+3) +",";
-		camera_position_str += cam_z.substr(0,cam_z.find(".")+3) +")";
-
-		std::string ball_position_str = "Ball (";
-		std::string ball_x = std::to_string(bowling_ball.get_position().x);
-		std::string ball_y = std::to_string(bowling_ball.get_position().y);
-		std::string ball_z = std::to_string(bowling_ball.get_position().z);
-
-		ball_position_str += ball_x.substr(0,ball_x.find(".")+3) +",";
-		ball_position_str += ball_y.substr(0,ball_y.find(".")+3) +",";
-		ball_position_str += ball_z.substr(0,ball_z.find(".")+3) +")";
-
-		std::string pins_standing_str = "Pins standing: ";
-		int pins_standing = 0;
-		for (int i = 0; i < 10; i++) {
-			if (!bowling_pins[i].get_is_hit()) {
-				pins_standing++;
-			}
-		}
-		pins_standing_str += std::to_string(pins_standing);
-
-
-	
-		//Draw semi-transparent box where the text will be displayed
-		//Draws a rectangle at a given x and y coordinate (lower left hand)
-		//void DrawRect(glm::vec2 loc, Shader sProgram, float depth_change = 0);
-		arial_font.DrawRect(font_program);
-		arial_font.DrawText(camera_position_str,glm::vec2(-1.0f, 0.8f),font_program);
-		arial_font.DrawText(ball_position_str,glm::vec2(-1.0f, 0.6f),font_program);
-		arial_font.DrawText(pins_standing_str,glm::vec2(-1.0f, 0.4f),font_program);
-
+		//void draw_text(Shader* shader, Font* font, glm::vec3 camera_position, glm::vec3 ball_position, int pins_standing) {
+		draw_text(&font_program, &arial_font, camera.Position, bowling_ball.get_position(), pins_standing);
 	} 
 
 	//Draw skybox last
@@ -538,6 +521,20 @@ void ProcessInput(GLFWwindow *window)
     if (glfwGetKey(window,GLFW_KEY_SPACE)==GLFW_RELEASE)
         glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
+    //Take care of the light toggle
+    if (glfwGetKey(window, GLFW_KEY_L)) {
+	    lKeyPressed = true;
+	    if (!lightToggle){
+		    std::cout<<"Light switch"<<std::endl;
+		    blue_light.on = !blue_light.on;
+		    std::cout<<"Blue light on: "<<blue_light.on<<std::endl;
+		    lightToggle = true;
+	    }
+    }
+    else if (glfwGetKey(window, GLFW_KEY_L) == GLFW_RELEASE && lKeyPressed) {
+	    lKeyPressed = false;
+	    lightToggle = false;
+    }
 
     // Upon C key press, the camera will change
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && camera.firstPress) {
