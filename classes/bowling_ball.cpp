@@ -8,14 +8,8 @@ BowlingBall::BowlingBall(VAOStruct* vao, Shader* shader_program)
 	bowling_ball_shape = importer.loadFiles("models/BowlingBall", *vao);
 
 }
-void BowlingBall::ProcessInput(GLFWwindow* window, float deltatime, float angle_y)
+void BowlingBall::ProcessInput(GLFWwindow* window, float deltatime)
 {
-	//Upon mouse click, the bowling ball will be released
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !mousePressed) {
-		std::cout<<"Mouse pressed"<<std::endl;
-		mousePressed = true;
-		ball_velocity = glm::rotate(glm::mat4(1.0), glm::radians(angle_y), glm::vec3(0.0,8.0,0.0)) * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-	}
 	ball_position += (ball_velocity * deltatime);
 }
 void BowlingBall::Draw()

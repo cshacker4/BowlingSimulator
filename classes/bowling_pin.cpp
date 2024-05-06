@@ -25,6 +25,10 @@ void BowlingPin::Draw(){
 
 }
 void BowlingPin::ProcessInput(GLFWwindow* window, float delta_time){
+	//check if the pin is in the lane
+	if (pin_position.x < -0.55 || pin_position.x > 0.55 || pin_position.z > 20.07){
+		in_lane = false;
+	}
 	//move
 	pin_position += pin_velocity * delta_time;
 	//rotate
@@ -56,4 +60,7 @@ void BowlingPin::set_velocity(glm::vec3 velocity){
 }
 glm::vec3 BowlingPin::get_velocity(){
 	return pin_velocity;
+}
+bool BowlingPin::get_in_lane(){
+	return in_lane;
 }

@@ -9,6 +9,7 @@
 #include "classes/release_assembly_arm.hpp"
 #include "classes/bowling_ball.hpp"
 #include "classes/bowling_pin.hpp"
+#include "classes/game_state.hpp"
 
 /*ProcessInput
  * Accepts a GLFWwindow pointer as input and processes 
@@ -231,6 +232,9 @@ int main()
     Shader font_program(".//shaders//vertex.glsl",".//shaders//fontFragmentShader.glsl");
     Shader skybox_shader(".//shaders//skyBoxVertex.glsl",".//shaders//skyBoxFragment.glsl");
 
+    // Create Game State
+    GameState game_state;
+
     //Create the VAO
     //-------------------------
 
@@ -285,7 +289,7 @@ int main()
     //Create bowling pins
     //-------------------------
     float bowling_pins_length = 0.15;
-    glm::vec3 bowling_pins_position = glm::vec3(0.0, 0.0, 1.0);
+    glm::vec3 bowling_pins_position = glm::vec3(0.0, 0.0, 19.0);
     BowlingPin bowling_pins[10]{
 	    BowlingPin(&import_vao, &shader_program, bowling_pins_position),
 	    BowlingPin(&import_vao, &shader_program, bowling_pins_position + glm::vec3(bowling_pins_length, 0.0, bowling_pins_length)),
@@ -478,29 +482,49 @@ int main()
 		    //Draw the arrow
 		    //----------------------
 		    velocity_arrow.ProcessInput(window, delta_time);
-		    velocity_arrow.Draw();
 
-		    //Draw the bowling ball
+		    if (game_state.get_state() == ADJUST_ARROW) {
+			    velocity_arrow.Draw();
+		    }
+
+		    // Draw the bowling ball
 		    //----------------------
-		    float velocity_arrow_angle = velocity_arrow.get_angle_y();
-		    bowling_ball.ProcessInput(window, delta_time, velocity_arrow_angle);
+		    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && game_state.get_state() == ADJUST_ARROW) {
+			    //second conditional: game_state.get_state() == ADJUST_ARROW && 
+			    std::cout << "Rolling the ball" << std::endl;
+			    //in degrees
+			    float angle = velocity_arrow.get_angle_y();
+			    glm::vec3 velocity = glm::vec3(glm::rotate(glm::mat4(1.0), glm::radians(angle), glm::vec3(0.0,1.0,0.0)) *glm::vec4(0.0, 0.0, 1.0, 1.0));
+			    std::cout << "Angle: " << angle << std::endl;
+			    bowling_ball.set_velocity(velocity);
+			    game_state.change_state(ROLLING);
+		    }
+
+		    bowling_ball.ProcessInput(window, delta_time);
+
 		    bowling_ball.Draw();
 
 		    //Draw the bowling pin and count the number of pins that are still standing
+		    //TODO: check if the pins are still in the lane
 		    int new_pins_standing = 0;
 		    //----------------------
 		    for (int i = 0; i < 10; i++) {
-			    handle_ball_pin_collision(&bowling_ball, &bowling_pins[i]);
-			    if (!bowling_pins[i].get_is_hit()) new_pins_standing ++;
-			    bowling_pins[i].ProcessInput(window, delta_time);
-			    bowling_pins[i].Draw();
+			    if (bowling_pins[i].get_in_lane()){ 
+				    handle_ball_pin_collision(&bowling_ball, &bowling_pins[i]);
+				    if (!bowling_pins[i].get_is_hit()) new_pins_standing ++;
+				    bowling_pins[i].ProcessInput(window, delta_time);
+				    bowling_pins[i].Draw();
+			    }
 		    }
 		    pins_standing = new_pins_standing;
 
 		    //Fun part
 		    for (int i = 0; i < 10; i++) {
-			    for (int j = i+1; j < 10; j++) {
-				    handle_pin_pin_collision(&bowling_pins[i], &bowling_pins[j]);
+			    if (bowling_pins[i].get_in_lane()) {
+				    for (int j = i+1; j < 10; j++) {
+					    if (bowling_pins[j].get_in_lane())
+						    handle_pin_pin_collision(&bowling_pins[i], &bowling_pins[j]);
+				    }
 			    }
 		    }
 

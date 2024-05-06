@@ -18,6 +18,7 @@ class BowlingPin{
 		float get_weight();
 		void set_velocity(glm::vec3 velocity);
 		glm::vec3 get_velocity();
+		bool get_in_lane();
 	private:
 		Shader* pin_shader_program;
 		VAOStruct* pin_vao;
@@ -33,5 +34,6 @@ class BowlingPin{
 		float angular_acceleration = 2*9.8/pin_radius;
 		//float angular_acceleration = 1.0f;
 		glm::mat4 get_transform_matrix();
+		bool in_lane = true;
 };
 

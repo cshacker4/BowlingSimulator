@@ -10,7 +10,7 @@ class BowlingBall
 {
 	public:
 		BowlingBall(VAOStruct* vao, Shader* shader_program);
-		void ProcessInput(GLFWwindow* window, float deltatime, float angle_y);
+		void ProcessInput(GLFWwindow* window, float deltatime);
 		void RegisterClick();
 		void Draw();
 		glm::vec3 get_position();
@@ -25,7 +25,7 @@ class BowlingBall
 		Shader* ball_shader;
 		float ball_radius = 0.11f;
 		float ball_weight = 12.0f;
-		glm::vec3 ball_position = glm::vec3(0.0f, 0.0f, 0.0f);
+		glm::vec3 ball_position = glm::vec3(0.0f, 0.0f, 18.0f);
 		glm::vec3 ball_velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 
 };

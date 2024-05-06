@@ -31,6 +31,12 @@
 },
 {
   "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\game_state.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\game_state.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\game_state.cpp",
+  "output": "CMakeFiles\\myProgram.dir\\classes\\game_state.cpp.obj"
+},
+{
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
   "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\import_object.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\import_object.cpp",
   "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\import_object.cpp",
   "output": "CMakeFiles\\myProgram.dir\\classes\\import_object.cpp.obj"
