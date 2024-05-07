@@ -4,6 +4,7 @@ BowlingPin::BowlingPin(VAOStruct* vao, Shader* shader_program, glm::vec3 positio
 	pin_shader_program = shader_program;
 	ImportOBJ importer;
 	pin_shape = importer.loadFiles("models/Pin", *vao);
+	initial_position = position;
 	pin_position = position;
 	is_hit = false;
 }
@@ -63,4 +64,12 @@ glm::vec3 BowlingPin::get_velocity(){
 }
 bool BowlingPin::get_in_lane(){
 	return in_lane;
+}
+void BowlingPin::reset(){
+	in_lane = true;
+	is_hit = false;
+	pin_position = initial_position;
+	pin_velocity = glm::vec3(0.0f, 0.0f, 0.0f);
+	angle = 0.0f;
+	angular_velocity = 0.0f;
 }

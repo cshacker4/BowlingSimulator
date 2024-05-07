@@ -10,7 +10,8 @@ BowlingBall::BowlingBall(VAOStruct* vao, Shader* shader_program)
 }
 void BowlingBall::ProcessInput(GLFWwindow* window, float deltatime)
 {
-	ball_position += (ball_velocity * deltatime);
+	if (in_lane) ball_position += (ball_velocity * deltatime);
+	if (ball_position.x < -0.55f || ball_position.x > 0.55f || ball_position.z > 20.07f) in_lane = false;
 }
 void BowlingBall::Draw()
 {
@@ -44,4 +45,14 @@ float BowlingBall::get_weight()
 void BowlingBall::set_velocity(glm::vec3 velocity)
 {
 	ball_velocity = velocity;
+}
+bool BowlingBall::get_in_lane()
+{
+	return in_lane;
+}
+void BowlingBall::reset()
+{
+	in_lane = true;
+	ball_position = initial_position;
+	ball_velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 }

@@ -1,10 +1,11 @@
-//Macros
+#ifndef GAME_STATE_HPP
+#define GAME_STATE_HPP
+
 #define ADJUST_ARROW 0
 #define ROLLING 1
-#define ROLL_COMPLETE  2
-#define LOWER_ARM 3
+#define LOWER_ARM 2
+#define RESET 3
 #define RAISE_ARM  4
-#define RESET  5
 
 class GameState{
 	private:
@@ -13,4 +14,5 @@ class GameState{
 		void change_state(int state);
 		int get_state();
 };
+#endif // GAME_STATE_HPP
 

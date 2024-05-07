@@ -19,10 +19,12 @@ class BowlingPin{
 		void set_velocity(glm::vec3 velocity);
 		glm::vec3 get_velocity();
 		bool get_in_lane();
+		void reset();
 	private:
 		Shader* pin_shader_program;
 		VAOStruct* pin_vao;
 		BasicShape pin_shape;
+		glm::vec3 initial_position;
 		glm::vec3 pin_position;
 		glm::vec3 pin_velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 		float pin_radius = 0.05;

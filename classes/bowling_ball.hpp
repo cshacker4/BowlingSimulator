@@ -18,14 +18,18 @@ class BowlingBall
 		float get_radius();
 		float get_weight();
 		void set_velocity(glm::vec3 velocity);
+		bool get_in_lane();
+		void reset();
 	private:
 		bool mousePressed = false;
+		bool in_lane = true;
 		BasicShape bowling_ball_shape;
 		VAOStruct* bowling_ball_vao;
 		Shader* ball_shader;
 		float ball_radius = 0.11f;
 		float ball_weight = 12.0f;
-		glm::vec3 ball_position = glm::vec3(0.0f, 0.0f, 18.0f);
+		glm::vec3 initial_position = glm::vec3(0.0f, 0.0f, 18.0f);
+		glm::vec3 ball_position = initial_position;
 		glm::vec3 ball_velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 
 };

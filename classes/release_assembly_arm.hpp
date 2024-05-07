@@ -5,12 +5,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "basic_shape.hpp"
 #include "import_object.hpp"
+#include "game_state.hpp"
 
 class ReleaseAssemblyArm{
 	public:
 		ReleaseAssemblyArm(VAOStruct* vao, Shader* shader);
 		void Draw();
-		void ProcessInput(GLFWwindow* window, float deltaTime);
+		void ProcessInput(GLFWwindow* window, float deltaTime, GameState* game_state);
 	private:
 		float angle_x = 90.0f;
 		float angular_velocity = 20.0f;

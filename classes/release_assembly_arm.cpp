@@ -21,9 +21,21 @@ void ReleaseAssemblyArm::Draw(){
 	arm_shader->setBool("imported_material",false);
 
 }
-void ReleaseAssemblyArm::ProcessInput(GLFWwindow* window, float deltaTime){
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		angle_x += angular_velocity * deltaTime;
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		angle_x -= angular_velocity * deltaTime;
+void ReleaseAssemblyArm::ProcessInput(GLFWwindow* window, float deltaTime, GameState* game_state){
+	if (game_state->get_state() == LOWER_ARM ){
+		if (angle_x > 0.0f){
+			angle_x -= angular_velocity * deltaTime;
+		}
+		else{
+			game_state->change_state(RESET);
+		}
+	}
+	if (game_state->get_state() == RAISE_ARM){
+		if (angle_x <= 90.0f){
+			angle_x += angular_velocity * deltaTime;
+		}
+		else{
+			game_state->change_state(ADJUST_ARROW);
+		}
+	}
 }

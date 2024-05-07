@@ -159,7 +159,6 @@ void handle_ball_pin_collision(BowlingBall* ball, BowlingPin* pin) {
 		if (!pin->get_is_hit()) {
 			pin->set_is_hit(true);
 			calculate_ball_pin_velocity(ball, pin);
-			std::cout<<"Collision detected"<<std::endl;
 		}
 		pin->set_is_hit(true);
 	}
@@ -176,7 +175,6 @@ void handle_pin_pin_collision(BowlingPin* pin1, BowlingPin* pin2) {
 		calculate_velocity_after_collision(pin1, pin2);
 		pin1->set_is_hit(true);
 		pin2->set_is_hit(true);
-		std::cout<<"Collision detected"<<std::endl;
 	}
 }
 
@@ -280,7 +278,6 @@ int main()
     BasicShape bowling_lane = importer.loadFiles("models/BowlingLane",import_vao);
     int bowling_lane_texture = importer.getTexture();
     BowlingBall bowling_ball(&import_vao, &shader_program);
-    std::cout<<bowling_ball.get_position().x<<std::endl;
     VelocityArrow velocity_arrow(&import_vao, &shader_program, bowling_ball.get_position());
     ReleaseAssemblyArm release_assembly_arm(&import_vao, &shader_program);
     BasicShape television_shape = importer.loadFiles("models/Television",import_vao);
@@ -476,7 +473,7 @@ int main()
 
 		    //Draw the realease assembly arm
 		    //---------------------
-		    release_assembly_arm.ProcessInput(window, delta_time);
+		    release_assembly_arm.ProcessInput(window, delta_time, &game_state);
 		    release_assembly_arm.Draw();
 
 		    //Draw the arrow
@@ -489,23 +486,36 @@ int main()
 
 		    // Draw the bowling ball
 		    //----------------------
+		    //TODO: bowling ball changes game state
 		    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && game_state.get_state() == ADJUST_ARROW) {
-			    //second conditional: game_state.get_state() == ADJUST_ARROW && 
-			    std::cout << "Rolling the ball" << std::endl;
 			    //in degrees
 			    float angle = velocity_arrow.get_angle_y();
 			    glm::vec3 velocity = glm::vec3(glm::rotate(glm::mat4(1.0), glm::radians(angle), glm::vec3(0.0,1.0,0.0)) *glm::vec4(0.0, 0.0, 1.0, 1.0));
-			    std::cout << "Angle: " << angle << std::endl;
 			    bowling_ball.set_velocity(velocity);
 			    game_state.change_state(ROLLING);
 		    }
-
 		    bowling_ball.ProcessInput(window, delta_time);
 
-		    bowling_ball.Draw();
+		    if (bowling_ball.get_in_lane()) {
+			    bowling_ball.Draw();
+		    }
+		    if (game_state.get_state() == ROLLING && !bowling_ball.get_in_lane()){ 
+			    game_state.change_state(LOWER_ARM);
+		    }
+
+		    //RESET objects
+		    //----------------------
+		    if (game_state.get_state() == RESET) {
+			    //reset the ball
+			    bowling_ball.reset();
+			    //reset the pins
+			    for (int i = 0; i < 10; i++) {
+				    bowling_pins[i].reset();
+			    }
+			    game_state.change_state(RAISE_ARM);
+		    }
 
 		    //Draw the bowling pin and count the number of pins that are still standing
-		    //TODO: check if the pins are still in the lane
 		    int new_pins_standing = 0;
 		    //----------------------
 		    for (int i = 0; i < 10; i++) {
