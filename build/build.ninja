@@ -108,6 +108,14 @@ build CMakeFiles/myProgram.dir/classes/release_assembly_arm.cpp.obj: CXX_COMPILE
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
   TARGET_PDB = myProgram.pdb
 
+build CMakeFiles/myProgram.dir/classes/rotation_arrow.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/rotation_arrow.cpp || cmake_object_order_depends_target_myProgram
+  DEP_FILE = CMakeFiles\myProgram.dir\classes\rotation_arrow.cpp.obj.d
+  FLAGS = -g
+  OBJECT_DIR = CMakeFiles\myProgram.dir
+  OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\classes
+  TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
+  TARGET_PDB = myProgram.pdb
+
 build CMakeFiles/myProgram.dir/classes/ship.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/ship.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\classes\ship.cpp.obj.d
   FLAGS = -g
@@ -171,7 +179,7 @@ build CMakeFiles/myProgram.dir/support/glad.c.obj: C_COMPILER__myProgram_unscann
 #############################################
 # Link the executable myProgram.exe
 
-build myProgram.exe: CXX_EXECUTABLE_LINKER__myProgram_ CMakeFiles/myProgram.dir/classes/Shader.cpp.obj CMakeFiles/myProgram.dir/classes/basic_shape.cpp.obj CMakeFiles/myProgram.dir/classes/bowling_ball.cpp.obj CMakeFiles/myProgram.dir/classes/bowling_pin.cpp.obj CMakeFiles/myProgram.dir/classes/camera.cpp.obj CMakeFiles/myProgram.dir/classes/game_state.cpp.obj CMakeFiles/myProgram.dir/classes/import_object.cpp.obj CMakeFiles/myProgram.dir/classes/release_assembly_arm.cpp.obj CMakeFiles/myProgram.dir/classes/ship.cpp.obj CMakeFiles/myProgram.dir/classes/velocity_arrow.cpp.obj CMakeFiles/myProgram.dir/classes/vertex_attribute.cpp.obj CMakeFiles/myProgram.dir/fonts/Font.cpp.obj CMakeFiles/myProgram.dir/main.cpp.obj CMakeFiles/myProgram.dir/support/build_shapes.cpp.obj CMakeFiles/myProgram.dir/support/glad.c.obj
+build myProgram.exe: CXX_EXECUTABLE_LINKER__myProgram_ CMakeFiles/myProgram.dir/classes/Shader.cpp.obj CMakeFiles/myProgram.dir/classes/basic_shape.cpp.obj CMakeFiles/myProgram.dir/classes/bowling_ball.cpp.obj CMakeFiles/myProgram.dir/classes/bowling_pin.cpp.obj CMakeFiles/myProgram.dir/classes/camera.cpp.obj CMakeFiles/myProgram.dir/classes/game_state.cpp.obj CMakeFiles/myProgram.dir/classes/import_object.cpp.obj CMakeFiles/myProgram.dir/classes/release_assembly_arm.cpp.obj CMakeFiles/myProgram.dir/classes/rotation_arrow.cpp.obj CMakeFiles/myProgram.dir/classes/ship.cpp.obj CMakeFiles/myProgram.dir/classes/velocity_arrow.cpp.obj CMakeFiles/myProgram.dir/classes/vertex_attribute.cpp.obj CMakeFiles/myProgram.dir/fonts/Font.cpp.obj CMakeFiles/myProgram.dir/main.cpp.obj CMakeFiles/myProgram.dir/support/build_shapes.cpp.obj CMakeFiles/myProgram.dir/support/glad.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lglfw3  -lgdi32  -lglu32  -lopengl32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\myProgram.dir

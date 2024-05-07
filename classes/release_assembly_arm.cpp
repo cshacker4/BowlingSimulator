@@ -35,7 +35,7 @@ void ReleaseAssemblyArm::ProcessInput(GLFWwindow* window, float deltaTime, GameS
 			angle_x += angular_velocity * deltaTime;
 		}
 		else{
-			game_state->change_state(ADJUST_ARROW);
+			game_state->change_state(VELOCITY_ARROW);
 		}
 	}
 }

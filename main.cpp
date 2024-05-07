@@ -10,6 +10,7 @@
 #include "classes/bowling_ball.hpp"
 #include "classes/bowling_pin.hpp"
 #include "classes/game_state.hpp"
+#include "classes/rotation_arrow.hpp"
 
 /*ProcessInput
  * Accepts a GLFWwindow pointer as input and processes 
@@ -50,6 +51,8 @@ bool lightToggle = false;
 //display text with toggle key
 bool display_text = false;
 bool display_first_press = true;
+//toggle boolean for the arrow input
+bool firstAToggle = true;
 
 //Television Screen state
 //---------------
@@ -279,6 +282,7 @@ int main()
     int bowling_lane_texture = importer.getTexture();
     BowlingBall bowling_ball(&import_vao, &shader_program);
     VelocityArrow velocity_arrow(&import_vao, &shader_program, bowling_ball.get_position());
+    RotationArrow rotation_arrow(&import_vao, &shader_program, bowling_ball.get_position());
     ReleaseAssemblyArm release_assembly_arm(&import_vao, &shader_program);
     BasicShape television_shape = importer.loadFiles("models/Television",import_vao);
 
@@ -476,24 +480,58 @@ int main()
 		    release_assembly_arm.ProcessInput(window, delta_time, &game_state);
 		    release_assembly_arm.Draw();
 
-		    //Draw the arrow
+		    //Draw the velocity arrow
 		    //----------------------
-		    velocity_arrow.ProcessInput(window, delta_time);
-
-		    if (game_state.get_state() == ADJUST_ARROW) {
+		    if (game_state.get_state() == VELOCITY_ARROW) {
+			    velocity_arrow.ProcessInput(window, delta_time);
 			    velocity_arrow.Draw();
 		    }
 
-		    // Draw the bowling ball
-		    //----------------------
-		    //TODO: bowling ball changes game state
-		    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && game_state.get_state() == ADJUST_ARROW) {
+		    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && firstAToggle && game_state.get_state() == VELOCITY_ARROW) {
+			    firstAToggle = false;
 			    //in degrees
 			    float angle = velocity_arrow.get_angle_y();
 			    glm::vec3 velocity = glm::vec3(glm::rotate(glm::mat4(1.0), glm::radians(angle), glm::vec3(0.0,1.0,0.0)) *glm::vec4(0.0, 0.0, 1.0, 1.0));
 			    bowling_ball.set_velocity(velocity);
-			    game_state.change_state(ROLLING);
+			    game_state.change_state(ROTATION_ARROW);
+			    std::cout << "Game state changed to ROTATION_ARROW" << std::endl;
 		    }
+		    else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE) {
+			    firstAToggle = true;
+		    }
+
+
+		    //TODO Draw the rotation arrow
+		    //----------------------
+		    rotation_arrow.ProcessInput(window, delta_time);
+
+		    if (game_state.get_state() == ROTATION_ARROW) {
+
+			    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && firstAToggle) {
+				    firstAToggle = false;
+				    //in degrees
+				    float angle = rotation_arrow.get_angle_x();
+				    //convert angle to rotational velocity
+				    std::cout << "Angle: " << angle << std::endl;
+				    float rotational_velocity = angle/90.0f;
+				    bowling_ball.set_rotational_velocity(rotational_velocity);
+				    game_state.change_state(ROLLING);
+				    bowling_ball.set_release(true);
+			    }
+			    else{
+				    rotation_arrow.ProcessInput(window, delta_time);
+				    rotation_arrow.Draw();
+			    }
+		    }
+		    else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE) {
+			    firstAToggle = true;
+		    }
+
+		    //std::cout << game_state.get_state() << std::endl;
+
+		    // Draw the bowling ball
+		    //----------------------
+		    //
 		    bowling_ball.ProcessInput(window, delta_time);
 
 		    if (bowling_ball.get_in_lane()) {

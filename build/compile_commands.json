@@ -49,6 +49,12 @@
 },
 {
   "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
+  "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\rotation_arrow.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\rotation_arrow.cpp",
+  "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\rotation_arrow.cpp",
+  "output": "CMakeFiles\\myProgram.dir\\classes\\rotation_arrow.cpp.obj"
+},
+{
+  "directory": "C:/Users/Bryce.Valverde/CS473/Bowling/build",
   "command": "g++  -g -o CMakeFiles\\myProgram.dir\\classes\\ship.cpp.obj -c C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\ship.cpp",
   "file": "C:\\Users\\Bryce.Valverde\\CS473\\Bowling\\classes\\ship.cpp",
   "output": "CMakeFiles\\myProgram.dir\\classes\\ship.cpp.obj"

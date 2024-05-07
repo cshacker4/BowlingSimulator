@@ -10,8 +10,20 @@ BowlingBall::BowlingBall(VAOStruct* vao, Shader* shader_program)
 }
 void BowlingBall::ProcessInput(GLFWwindow* window, float deltatime)
 {
-	if (in_lane) ball_position += (ball_velocity * deltatime);
-	if (ball_position.x < -0.55f || ball_position.x > 0.55f || ball_position.z > 20.07f) in_lane = false;
+	//std::cout << in_lane << release << std::endl;
+	if (in_lane && release) {
+
+		if (ball_position.z > oil_line) {
+			//assume decceleration is negligible
+			//negative due to world orientation
+			ball_velocity.x -= (angular_velocity_normal * angular_speed * ball_radius * deltatime);
+		}
+		ball_position += ball_velocity * deltatime;
+	}
+	if (ball_position.x < -0.55f || ball_position.x > 0.55f || ball_position.z > 20.07f) {
+		release = false;
+		in_lane = false;
+	}
 }
 void BowlingBall::Draw()
 {
@@ -32,7 +44,7 @@ glm::vec3 BowlingBall::get_position()
 }
 glm::vec3 BowlingBall::get_velocity()
 {
-	return ball_velocity;
+	return ball_velocity_normal;
 }
 float BowlingBall::get_radius()
 {
@@ -44,7 +56,8 @@ float BowlingBall::get_weight()
 }
 void BowlingBall::set_velocity(glm::vec3 velocity)
 {
-	ball_velocity = velocity;
+	ball_velocity_normal = velocity;
+	ball_velocity = ball_velocity_normal * ball_speed;
 }
 bool BowlingBall::get_in_lane()
 {
@@ -54,5 +67,13 @@ void BowlingBall::reset()
 {
 	in_lane = true;
 	ball_position = initial_position;
-	ball_velocity = glm::vec3(0.0f, 0.0f, 0.0f);
+	ball_velocity_normal = glm::vec3(0.0f, 0.0f, 0.0f);
+}
+void BowlingBall::set_release(bool released)
+{
+	release = released;
+}
+void BowlingBall::set_rotational_velocity(float velocity)
+{
+	angular_velocity_normal = velocity;
 }
