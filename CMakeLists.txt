@@ -20,7 +20,10 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 
 # Include directories for the target
-target_include_directories(${PROJECT_NAME} PUBLIC "C:/msys64/ucrt64/include")
+target_include_directories(${PROJECT_NAME} PUBLIC 
+	"C:/msys64/ucrt64/include"
+	"C:/Users/Bryce.Valverde/CS473/Joycon/include"
+)
 
 # Link other required libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw3 gdi32 glu32 opengl32)

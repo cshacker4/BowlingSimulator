@@ -11,6 +11,7 @@
 #include "classes/bowling_pin.hpp"
 #include "classes/game_state.hpp"
 #include "classes/rotation_arrow.hpp"
+#include "joycon/joycon_cpp/joycon.hpp"
 
 /*ProcessInput
  * Accepts a GLFWwindow pointer as input and processes 
@@ -29,8 +30,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 
 //Global Variables
 //----------------
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 800;
+//const unsigned int SCR_WIDTH = 800;
+//const unsigned int SCR_HEIGHT = 800;
+const unsigned int SCR_WIDTH = 1920;
+const unsigned int SCR_HEIGHT = 1080;
 
 glm::vec4 shape_color (0.0,0.0,0.0,1.0);
 glm::vec4 clear_color (0.0,0.0,0.0,1.0);
@@ -63,6 +66,9 @@ Camera camera(glm::vec3(0.0f,1.0f,-3.0f),glm::vec3(0.0f,1.0f,0.0f),90.0f,0.0f);
 
 float delta_time{0.001};
 float last_frame{0.0};
+
+//Joycon
+Joycon joycon;
 
 //light switches
 glm::vec4 blue_light_position (0.0,5.0,10.0,1.0);
@@ -480,6 +486,24 @@ int main()
 		    release_assembly_arm.ProcessInput(window, delta_time, &game_state);
 		    release_assembly_arm.Draw();
 
+		    //TODO Handle Joycon input
+		    //---------------------
+		
+		    auto current_time = std::chrono::steady_clock::now();
+		    auto time_delta = std::chrono::duration<float>(current_time - joycon.get_last_update_time()).count();
+
+		    joycon.ProcessInput(time_delta);
+
+		    if (joycon.get_roll_registered() && game_state.get_state() == VELOCITY_ARROW) {
+			    float velocity_angle = -1.0 * glm::pi<float>()/64.0f * joycon.get_velocity_norm();
+			    glm::vec3 velocity = glm::vec3(glm::rotate(glm::mat4(1.0), velocity_angle, glm::vec3(0.0,1.0,0.0)) *glm::vec4(0.0, 0.0, 1.0, 1.0));
+			    bowling_ball.set_velocity(velocity);
+			    bowling_ball.set_rotational_velocity(joycon.get_angular_velocity_norm());
+			    joycon.reset();
+			    game_state.change_state(ROLLING);
+			    bowling_ball.set_release(true);
+		    }
+
 		    //Draw the velocity arrow
 		    //----------------------
 		    if (game_state.get_state() == VELOCITY_ARROW) {
@@ -501,7 +525,7 @@ int main()
 		    }
 
 
-		    //TODO Draw the rotation arrow
+		    // Draw the rotation arrow
 		    //----------------------
 		    rotation_arrow.ProcessInput(window, delta_time);
 

@@ -47,6 +47,7 @@ build cmake_object_order_depends_target_myProgram: phony || CMakeFiles/myProgram
 build CMakeFiles/myProgram.dir/classes/Shader.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/Shader.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\classes\Shader.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -55,6 +56,7 @@ build CMakeFiles/myProgram.dir/classes/Shader.cpp.obj: CXX_COMPILER__myProgram_u
 build CMakeFiles/myProgram.dir/classes/basic_shape.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/basic_shape.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\classes\basic_shape.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -63,6 +65,7 @@ build CMakeFiles/myProgram.dir/classes/basic_shape.cpp.obj: CXX_COMPILER__myProg
 build CMakeFiles/myProgram.dir/classes/bowling_ball.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/bowling_ball.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\classes\bowling_ball.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -71,6 +74,7 @@ build CMakeFiles/myProgram.dir/classes/bowling_ball.cpp.obj: CXX_COMPILER__myPro
 build CMakeFiles/myProgram.dir/classes/bowling_pin.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/bowling_pin.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\classes\bowling_pin.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -79,6 +83,7 @@ build CMakeFiles/myProgram.dir/classes/bowling_pin.cpp.obj: CXX_COMPILER__myProg
 build CMakeFiles/myProgram.dir/classes/camera.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/camera.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\classes\camera.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -87,6 +92,7 @@ build CMakeFiles/myProgram.dir/classes/camera.cpp.obj: CXX_COMPILER__myProgram_u
 build CMakeFiles/myProgram.dir/classes/game_state.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/game_state.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\classes\game_state.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -95,6 +101,7 @@ build CMakeFiles/myProgram.dir/classes/game_state.cpp.obj: CXX_COMPILER__myProgr
 build CMakeFiles/myProgram.dir/classes/import_object.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/import_object.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\classes\import_object.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -103,6 +110,7 @@ build CMakeFiles/myProgram.dir/classes/import_object.cpp.obj: CXX_COMPILER__myPr
 build CMakeFiles/myProgram.dir/classes/release_assembly_arm.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/release_assembly_arm.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\classes\release_assembly_arm.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -111,6 +119,7 @@ build CMakeFiles/myProgram.dir/classes/release_assembly_arm.cpp.obj: CXX_COMPILE
 build CMakeFiles/myProgram.dir/classes/rotation_arrow.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/rotation_arrow.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\classes\rotation_arrow.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -119,6 +128,7 @@ build CMakeFiles/myProgram.dir/classes/rotation_arrow.cpp.obj: CXX_COMPILER__myP
 build CMakeFiles/myProgram.dir/classes/ship.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/ship.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\classes\ship.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -127,6 +137,7 @@ build CMakeFiles/myProgram.dir/classes/ship.cpp.obj: CXX_COMPILER__myProgram_uns
 build CMakeFiles/myProgram.dir/classes/velocity_arrow.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/velocity_arrow.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\classes\velocity_arrow.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -135,6 +146,7 @@ build CMakeFiles/myProgram.dir/classes/velocity_arrow.cpp.obj: CXX_COMPILER__myP
 build CMakeFiles/myProgram.dir/classes/vertex_attribute.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/classes/vertex_attribute.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\classes\vertex_attribute.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -143,14 +155,25 @@ build CMakeFiles/myProgram.dir/classes/vertex_attribute.cpp.obj: CXX_COMPILER__m
 build CMakeFiles/myProgram.dir/fonts/Font.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/fonts/Font.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\fonts\Font.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\fonts
+  TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
+  TARGET_PDB = myProgram.pdb
+
+build CMakeFiles/myProgram.dir/joycon/joycon_cpp/joycon.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/joycon/joycon_cpp/joycon.cpp || cmake_object_order_depends_target_myProgram
+  DEP_FILE = CMakeFiles\myProgram.dir\joycon\joycon_cpp\joycon.cpp.obj.d
+  FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
+  OBJECT_DIR = CMakeFiles\myProgram.dir
+  OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\joycon\joycon_cpp
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
   TARGET_PDB = myProgram.pdb
 
 build CMakeFiles/myProgram.dir/main.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/main.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\main.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -159,6 +182,7 @@ build CMakeFiles/myProgram.dir/main.cpp.obj: CXX_COMPILER__myProgram_unscanned_ 
 build CMakeFiles/myProgram.dir/support/build_shapes.cpp.obj: CXX_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/support/build_shapes.cpp || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\support\build_shapes.cpp.obj.d
   FLAGS = -g
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\support
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -166,6 +190,7 @@ build CMakeFiles/myProgram.dir/support/build_shapes.cpp.obj: CXX_COMPILER__myPro
 
 build CMakeFiles/myProgram.dir/support/glad.c.obj: C_COMPILER__myProgram_unscanned_ C$:/Users/Bryce.Valverde/CS473/Bowling/support/glad.c || cmake_object_order_depends_target_myProgram
   DEP_FILE = CMakeFiles\myProgram.dir\support\glad.c.obj.d
+  INCLUDES = -IC:/Users/Bryce.Valverde/CS473/Joycon/include
   OBJECT_DIR = CMakeFiles\myProgram.dir
   OBJECT_FILE_DIR = CMakeFiles\myProgram.dir\support
   TARGET_COMPILE_PDB = CMakeFiles\myProgram.dir\
@@ -179,7 +204,7 @@ build CMakeFiles/myProgram.dir/support/glad.c.obj: C_COMPILER__myProgram_unscann
 #############################################
 # Link the executable myProgram.exe
 
-build myProgram.exe: CXX_EXECUTABLE_LINKER__myProgram_ CMakeFiles/myProgram.dir/classes/Shader.cpp.obj CMakeFiles/myProgram.dir/classes/basic_shape.cpp.obj CMakeFiles/myProgram.dir/classes/bowling_ball.cpp.obj CMakeFiles/myProgram.dir/classes/bowling_pin.cpp.obj CMakeFiles/myProgram.dir/classes/camera.cpp.obj CMakeFiles/myProgram.dir/classes/game_state.cpp.obj CMakeFiles/myProgram.dir/classes/import_object.cpp.obj CMakeFiles/myProgram.dir/classes/release_assembly_arm.cpp.obj CMakeFiles/myProgram.dir/classes/rotation_arrow.cpp.obj CMakeFiles/myProgram.dir/classes/ship.cpp.obj CMakeFiles/myProgram.dir/classes/velocity_arrow.cpp.obj CMakeFiles/myProgram.dir/classes/vertex_attribute.cpp.obj CMakeFiles/myProgram.dir/fonts/Font.cpp.obj CMakeFiles/myProgram.dir/main.cpp.obj CMakeFiles/myProgram.dir/support/build_shapes.cpp.obj CMakeFiles/myProgram.dir/support/glad.c.obj
+build myProgram.exe: CXX_EXECUTABLE_LINKER__myProgram_ CMakeFiles/myProgram.dir/classes/Shader.cpp.obj CMakeFiles/myProgram.dir/classes/basic_shape.cpp.obj CMakeFiles/myProgram.dir/classes/bowling_ball.cpp.obj CMakeFiles/myProgram.dir/classes/bowling_pin.cpp.obj CMakeFiles/myProgram.dir/classes/camera.cpp.obj CMakeFiles/myProgram.dir/classes/game_state.cpp.obj CMakeFiles/myProgram.dir/classes/import_object.cpp.obj CMakeFiles/myProgram.dir/classes/release_assembly_arm.cpp.obj CMakeFiles/myProgram.dir/classes/rotation_arrow.cpp.obj CMakeFiles/myProgram.dir/classes/ship.cpp.obj CMakeFiles/myProgram.dir/classes/velocity_arrow.cpp.obj CMakeFiles/myProgram.dir/classes/vertex_attribute.cpp.obj CMakeFiles/myProgram.dir/fonts/Font.cpp.obj CMakeFiles/myProgram.dir/joycon/joycon_cpp/joycon.cpp.obj CMakeFiles/myProgram.dir/main.cpp.obj CMakeFiles/myProgram.dir/support/build_shapes.cpp.obj CMakeFiles/myProgram.dir/support/glad.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lglfw3  -lgdi32  -lglu32  -lopengl32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\myProgram.dir
